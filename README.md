@@ -20,6 +20,14 @@ This is a proxy service that allows apps using RingCentral's older APIs to use t
 * https://service.ringcentral.com/ringoutapi/ ([docs](https://grokify.github.io/ringcentral-legacy-api-proxy/ringoutapi.html))
 * https://service.ringcentral.com/faxoutapi/ ([docs](https://grokify.github.io/ringcentral-legacy-api-proxy/faxoutapi.html))
 
+The following calls are supported:
+
+* [x] RingOut `call` command
+* [ ] RingOut `list` command
+* [ ] RingOut `status` command
+* [ ] RingOut `cancel` command
+* [ ] FaxOut
+
 ## Prerequisites
 
 The following are required to use this app.
