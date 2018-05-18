@@ -22,13 +22,13 @@
 		},
 		{
 			"ImportPath": "github.com/grokify/go-ringcentral/client",
-			"Comment": "v2.3.0-87-g7e29842",
-			"Rev": "7e2984214ebdd754ffc84e7822d6a57370f2fc73"
+			"Comment": "v2.3.0-88-gf12f4c5",
+			"Rev": "f12f4c59408ca1def30ca6cdf10c3841b1261b88"
 		},
 		{
 			"ImportPath": "github.com/grokify/go-ringcentral/clientutil",
-			"Comment": "v2.3.0-87-g7e29842",
-			"Rev": "7e2984214ebdd754ffc84e7822d6a57370f2fc73"
+			"Comment": "v2.3.0-88-gf12f4c5",
+			"Rev": "f12f4c59408ca1def30ca6cdf10c3841b1261b88"
 		},
 		{
 			"ImportPath": "github.com/grokify/go-scim-client",
@@ -47,10 +47,6 @@
 			"Rev": "f176630523a1652c11dcbf06e6132805e443e013"
 		},
 		{
-			"ImportPath": "github.com/grokify/gotilla/net/nethttputil",
-			"Rev": "f176630523a1652c11dcbf06e6132805e443e013"
-		},
-		{
 			"ImportPath": "github.com/grokify/gotilla/net/urlutil",
 			"Rev": "f176630523a1652c11dcbf06e6132805e443e013"
 		},
@@ -60,10 +56,6 @@
 		},
 		{
 			"ImportPath": "github.com/grokify/gotilla/strconv/strconvutil",
-			"Rev": "f176630523a1652c11dcbf06e6132805e443e013"
-		},
-		{
-			"ImportPath": "github.com/grokify/gotilla/strings/stringsutil",
 			"Rev": "f176630523a1652c11dcbf06e6132805e443e013"
 		},
 		{

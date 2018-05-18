@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"regexp"
 	"strconv"
 	"strings"
 
@@ -34,11 +35,12 @@ type RingOutRequestParams struct {
 	Clid      string `schema:"clid"`
 	Prompt    string `schema:"prompt"`
 	SessionID string `schema:"sessionid"`
+	Format    string `schema:"format"`
 }
 
 // HasValidCommand returns true if `cmd` is set to a supported value.
 func (params *RingOutRequestParams) HasValidCommand() bool {
-	cmds := map[string]int{"call": 1, "list": 0, "status": 0, "cancel": 0}
+	cmds := map[string]int{"call": 1, "list": 1, "status": 0, "cancel": 0}
 	if val, ok := cmds[strings.ToLower(params.Cmd)]; ok && val == 1 {
 		return true
 	}
@@ -100,11 +102,84 @@ func (h *Handler) RingOut(res http.ResponseWriter, req *http.Request) {
 			PlayPrompt: reqParams.PlayPrompt()}
 
 		log.Printf("%v\n", ringOut)
-		ringoutCall(res, apiClient, ringOut)
+		ringoutCall(res, apiClient, ringOut, reqParams.Format)
+	case "list":
+		ringoutList(res, apiClient, reqParams.Format)
 	}
 }
 
-func ringoutCall(res http.ResponseWriter, apiClient *rc.APIClient, ringOut ru.RingOutRequest) {
+type ErrorResponse struct {
+	StatusCode int
+	Message    string
+}
+
+func (eresp *ErrorResponse) ToJSON() []byte {
+	bytes, err := json.Marshal(eresp)
+	if err != nil {
+		eresp2 := ErrorResponse{StatusCode: 500, Message: err.Error()}
+		bytes, _ := json.Marshal(eresp2)
+		return bytes
+	}
+	return bytes
+}
+
+func ringoutList(res http.ResponseWriter, apiClient *rc.APIClient, format string) {
+	fmt.Println("LIST")
+	info, resp, err := apiClient.CallHandlingSettingsApi.ListExtensionForwardingNumbers(
+		context.Background(), "~", "~", map[string]interface{}{})
+	if err != nil {
+		res.WriteHeader(http.StatusBadRequest)
+		eresp := ErrorResponse{StatusCode: 500, Message: err.Error()}
+		res.Write(eresp.ToJSON())
+		return
+	} else if resp.StatusCode >= 500 {
+		res.WriteHeader(http.StatusInternalServerError)
+		eresp := ErrorResponse{StatusCode: resp.StatusCode, Message: fmt.Sprintf("REST API Response: %v", resp.StatusCode)}
+		res.Write(eresp.ToJSON())
+		return
+	} else if resp.StatusCode >= 400 {
+		res.WriteHeader(http.StatusBadRequest)
+		eresp := ErrorResponse{StatusCode: resp.StatusCode, Message: fmt.Sprintf("REST API Response: %v", resp.StatusCode)}
+		res.Write(eresp.ToJSON())
+		return
+	} else if resp.StatusCode >= 300 {
+		res.WriteHeader(http.StatusInternalServerError)
+		eresp := ErrorResponse{StatusCode: resp.StatusCode, Message: fmt.Sprintf("REST API Response: %v", resp.StatusCode)}
+		res.Write(eresp.ToJSON())
+		return
+	}
+	bytes, err := json.Marshal(info)
+	if err != nil {
+		res.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	if format == "json" {
+		res.Header().Set(hum.HeaderContentType, hum.HeaderContentTypeValueJSONUTF8)
+		res.Write(bytes)
+	} else {
+		res.Header().Set(hum.HeaderContentType, "text/plain; charset=us-ascii")
+		res.Write([]byte(ringoutListLegacyResponseBody(info.Records)))
+	}
+}
+
+func ringoutListLegacyResponseBody(numberInfos []rc.ForwardingNumberInfo) string {
+	parts := []string{}
+	for _, numberInfo := range numberInfos {
+		label := strings.TrimSpace(numberInfo.Label)
+		number := strings.TrimSpace(numberInfo.PhoneNumber)
+		rx := regexp.MustCompile(`^\+1(\d{10})$`)
+		m := rx.FindStringSubmatch(number)
+		if len(m) > 1 {
+			number = m[1]
+		}
+		parts = append(parts, number)
+		parts = append(parts, label)
+	}
+	return fmt.Sprintf("OK %s", strings.Join(parts, ";"))
+}
+
+func ringoutCall(res http.ResponseWriter, apiClient *rc.APIClient, ringOut ru.RingOutRequest, format string) {
 	info, resp, err := apiClient.RingOutApi.MakeRingOutCallNew(
 		context.Background(), "~", "~", *ringOut.Body())
 	if err != nil {
@@ -120,15 +195,19 @@ func ringoutCall(res http.ResponseWriter, apiClient *rc.APIClient, ringOut ru.Ri
 		res.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-
 	bytes, err := json.Marshal(info)
 	if err != nil {
 		res.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
-	res.Header().Set(hum.HeaderContentType, hum.HeaderContentTypeValueJSONUTF8)
-	res.Write(bytes)
+	if format == "json" {
+		res.Header().Set(hum.HeaderContentType, hum.HeaderContentTypeValueJSONUTF8)
+		res.Write(bytes)
+	} else {
+		res.Header().Set(hum.HeaderContentType, "text/plain; charset=us-ascii")
+		res.Write([]byte(fmt.Sprintf("OK %s", info.Id)))
+	}
 }
 
 func serveNetHttp(handler Handler) {

@@ -29,10 +29,12 @@ This is a proxy service that allows apps using RingCentral's older APIs to use t
 The following calls with checks are currently supported:
 
 * [x] [RingOut `call` command](https://grokify.github.io/ringcentral-legacy-api-proxy/ringoutapi.html#call) - returns REST API JSON response
-* [ ] [RingOut `list` command](https://grokify.github.io/ringcentral-legacy-api-proxy/ringoutapi.html#list)
+* [x] [RingOut `list` command](https://grokify.github.io/ringcentral-legacy-api-proxy/ringoutapi.html#list)
 * [ ] [RingOut `status` command](https://grokify.github.io/ringcentral-legacy-api-proxy/ringoutapi.html#status)
 * [ ] [RingOut `cancel` command](https://grokify.github.io/ringcentral-legacy-api-proxy/ringoutapi.html#cancel)
 * [ ] [FaxOut](https://grokify.github.io/ringcentral-legacy-api-proxy/faxoutapi.html)
+
+Note: a new query string parameter is provided: `format=json` which instructs the service to return the REST API JSON response. If this is not provided, the response is converted to a legacy API response.
 
 ## Prerequisites
 
