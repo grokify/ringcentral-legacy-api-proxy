@@ -8,16 +8,40 @@ import (
 	"net/http"
 	"os"
 	"strconv"
-	"strings"
 
+	"github.com/gorilla/schema"
 	cfg "github.com/grokify/gotilla/config"
 	hum "github.com/grokify/gotilla/net/httputilmore"
-	nhu "github.com/grokify/gotilla/net/nethttputil"
 
 	rc "github.com/grokify/go-ringcentral/client"
 	ru "github.com/grokify/go-ringcentral/clientutil"
 	ro "github.com/grokify/oauth2more/ringcentral"
 )
+
+var decoder = schema.NewDecoder()
+
+// RingOutRequestParams represents the full list of request
+// parameters that can be sent. All parameter names are lower-case.
+// Supports both GET and POST.
+type RingOutRequestParams struct {
+	Cmd       string `schema:"cmd"`
+	Username  string `schema:"username"`
+	Ext       string `schema:"ext"`
+	Password  string `schema:"password"`
+	To        string `schema:"to"`
+	From      string `schema:"from"`
+	Clid      string `schema:"clid"`
+	Prompt    string `schema:"prompt"`
+	SessionID string `schema:"sessionid"`
+}
+
+// PlayPrompt returns the prompt parameter converted to a boolean.
+func (params *RingOutRequestParams) PlayPrompt() bool {
+	if params.Prompt == "1" {
+		return true
+	}
+	return false
+}
 
 // Handler is a struct to hold the service handlers.
 type Handler struct {
@@ -29,14 +53,25 @@ type Handler struct {
 // RingOut is a net/http handler for performing a RingOut API
 // call using the RingCentral legacy ringout.asp API definition.
 func (h *Handler) RingOut(res http.ResponseWriter, req *http.Request) {
-	reqUtil := nhu.RequestUtil{Request: req}
+	err := req.ParseForm()
+	if err != nil {
+		res.WriteHeader(http.StatusBadRequest)
+		return
+	}
 
-	cmd := strings.ToLower(reqUtil.QueryParamString("cmd"))
+	var reqParams RingOutRequestParams
+
+	err = decoder.Decode(&reqParams, req.Form)
+
+	if err != nil {
+		res.WriteHeader(http.StatusBadRequest)
+		return
+	}
 
 	pwdCredentials := ro.PasswordCredentials{
-		Username:        reqUtil.QueryParamString("username"),
-		Extension:       reqUtil.QueryParamString("ext"),
-		Password:        reqUtil.QueryParamString("password"),
+		Username:        reqParams.Username,
+		Extension:       reqParams.Ext,
+		Password:        reqParams.Password,
 		RefreshTokenTTL: int64(-1)}
 
 	apiClient, err := ru.NewApiClientPassword(*h.AppCredentials, pwdCredentials)
@@ -45,19 +80,13 @@ func (h *Handler) RingOut(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	switch cmd {
+	switch reqParams.Cmd {
 	case "call":
-		prompt := reqUtil.QueryParamString("prompt")
-		playPrompt := false
-		if prompt == "1" {
-			playPrompt = true
-		}
-
 		ringOut := ru.RingOutRequest{
-			To:         reqUtil.QueryParamString("to"),
-			From:       reqUtil.QueryParamString("from"),
-			CallerId:   reqUtil.QueryParamString("clid"),
-			PlayPrompt: playPrompt}
+			To:         reqParams.To,
+			From:       reqParams.From,
+			CallerId:   reqParams.Clid,
+			PlayPrompt: reqParams.PlayPrompt()}
 
 		log.Printf("%v\n", ringOut)
 		ringoutCall(res, apiClient, ringOut)
