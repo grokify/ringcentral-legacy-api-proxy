@@ -60,9 +60,7 @@ func (h *Handler) RingOut(res http.ResponseWriter, req *http.Request) {
 	}
 
 	var reqParams RingOutRequestParams
-
 	err = decoder.Decode(&reqParams, req.Form)
-
 	if err != nil {
 		res.WriteHeader(http.StatusBadRequest)
 		return
