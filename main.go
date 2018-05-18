@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"strings"
 
 	cfg "github.com/grokify/gotilla/config"
 	hum "github.com/grokify/gotilla/net/httputilmore"
@@ -30,18 +31,13 @@ type Handler struct {
 func (h *Handler) RingOut(res http.ResponseWriter, req *http.Request) {
 	reqUtil := nhu.RequestUtil{Request: req}
 
+	cmd := strings.ToLower(reqUtil.QueryParamString("cmd"))
+
 	pwdCredentials := ro.PasswordCredentials{
 		Username:        reqUtil.QueryParamString("username"),
 		Extension:       reqUtil.QueryParamString("ext"),
 		Password:        reqUtil.QueryParamString("password"),
 		RefreshTokenTTL: int64(-1)}
-
-	ringOut := ru.RingOutRequest{
-		To:       reqUtil.QueryParamString("to"),
-		From:     reqUtil.QueryParamString("from"),
-		CallerId: reqUtil.QueryParamString("clid")}
-
-	log.Printf("%v\n", ringOut)
 
 	apiClient, err := ru.NewApiClientPassword(*h.AppCredentials, pwdCredentials)
 	if err != nil {
@@ -49,6 +45,26 @@ func (h *Handler) RingOut(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	switch cmd {
+	case "call":
+		prompt := reqUtil.QueryParamString("prompt")
+		playPrompt := false
+		if prompt == "1" {
+			playPrompt = true
+		}
+
+		ringOut := ru.RingOutRequest{
+			To:         reqUtil.QueryParamString("to"),
+			From:       reqUtil.QueryParamString("from"),
+			CallerId:   reqUtil.QueryParamString("clid"),
+			PlayPrompt: playPrompt}
+
+		log.Printf("%v\n", ringOut)
+		ringoutCall(res, apiClient, ringOut)
+	}
+}
+
+func ringoutCall(res http.ResponseWriter, apiClient *rc.APIClient, ringOut ru.RingOutRequest) {
 	info, resp, err := apiClient.RingOutApi.MakeRingOutCallNew(
 		context.Background(), "~", "~", *ringOut.Body())
 	if err != nil {
