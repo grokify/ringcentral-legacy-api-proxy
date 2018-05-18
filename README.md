@@ -20,6 +20,13 @@ This is a proxy service that allows apps using RingCentral's older APIs to use t
 * https://service.ringcentral.com/ringoutapi/
 * https://service.ringcentral.com/faxoutapi/
 
+## Prerequisites
+
+The following are required to use this app.
+
+1. Account at https://developer.ringcentral.com
+2. An application that supports the "Password grant" OAuth 2.0 flow and the `RingOut` permission
+
 ## Configuration
 
 This application needs the following configuration variables:
