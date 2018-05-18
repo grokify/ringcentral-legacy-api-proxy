@@ -53,6 +53,19 @@ or
 
 After you click the button above, you will need to enter the environment variables above into the Heroku web console.
 
+### Running Locally
+
+```
+$ go get github.com/grokify/ringcentral-legacy-api-proxy
+$ cd ringcentral-legacy-api-proxy
+$ go get ./...
+# go build main.go
+$ RINGCENTRAL_SERVER_URL=https://platform.devtest.ringcentral.com \
+  RINGCENTRAL_CLIENT_ID=<myClientId> \
+  RINGCENTRAL_CLIENT_SECRET=<myClientSecret> \
+  main
+```
+
 ## Notes
 
 Rebuild `vendor` directory with:
