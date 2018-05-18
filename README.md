@@ -21,7 +21,7 @@ RingCentral Legacy API Proxy
  [stackoverflow-svg]: https://img.shields.io/badge/stack%20overflow-ringcentral-orange.svg
  [stackoverflow-url]: https://stackoverflow.com/questions/tagged/ringcentral
 
-This is a proxy service that allows apps using RingCentral's older RPC APIs to use the new [RingCentral REST APIs](https://developer.ringcentral.com) seamlessly.
+This is a proxy service that allows apps using RingCentral's legacy RPC APIs to use the new [RingCentral REST APIs](https://developer.ringcentral.com) seamlessly. End-of-Life for the legacy APIs is targeted for the 10.2 release, August 9, 2018. Use of this proxy can enable your app to use the new REST APIs with the same interface as the legacy RPC APIs.
 
 * https://service.ringcentral.com/ringoutapi/ ([docs](https://grokify.github.io/ringcentral-legacy-api-proxy/ringoutapi.html))
 * https://service.ringcentral.com/faxoutapi/ ([docs](https://grokify.github.io/ringcentral-legacy-api-proxy/faxoutapi.html))
