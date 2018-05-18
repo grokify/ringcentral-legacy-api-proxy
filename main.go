@@ -108,11 +108,14 @@ func (h *Handler) RingOut(res http.ResponseWriter, req *http.Request) {
 	}
 }
 
+// ErrorResponse is a generic error response to return as a JSON body.
 type ErrorResponse struct {
 	StatusCode int
 	Message    string
 }
 
+// ToJSON returns ErrorResponse as a JSON byte array, embedding json.Marshal
+// errors if encountered.
 func (eresp *ErrorResponse) ToJSON() []byte {
 	bytes, err := json.Marshal(eresp)
 	if err != nil {
