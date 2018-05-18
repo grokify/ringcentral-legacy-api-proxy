@@ -65,12 +65,12 @@ type Handler struct {
 // RingOut is a net/http handler for performing a RingOut API
 // call using the RingCentral legacy ringout.asp API definition.
 func (h *Handler) RingOut(res http.ResponseWriter, req *http.Request) {
+	// Parse Request Data
 	err := req.ParseForm()
 	if err != nil {
 		res.WriteHeader(http.StatusBadRequest)
 		return
 	}
-
 	var reqParams RingOutRequestParams
 	err = decoder.Decode(&reqParams, req.Form)
 	if err != nil {
@@ -81,18 +81,19 @@ func (h *Handler) RingOut(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	// Authorize
 	pwdCredentials := ro.PasswordCredentials{
 		Username:        reqParams.Username,
 		Extension:       reqParams.Ext,
 		Password:        reqParams.Password,
 		RefreshTokenTTL: int64(-1)}
-
 	apiClient, err := ru.NewApiClientPassword(*h.AppCredentials, pwdCredentials)
 	if err != nil {
 		res.WriteHeader(http.StatusUnauthorized)
 		return
 	}
 
+	// Process Request
 	switch strings.ToLower(reqParams.Cmd) {
 	case "call":
 		ringOut := ru.RingOutRequest{
