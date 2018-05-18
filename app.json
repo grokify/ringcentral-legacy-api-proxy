@@ -19,12 +19,11 @@
     },
     "env": {
         "RINGCENTRAL_CLIENT_ID": {
-            "description": "RingCentral app ClientId",
+            "description": "RingCentral app Client Id",
             "required": true
         },
         "RINGCENTRAL_CLIENT_SECRET": {
-            "description": "RingCentral app ClientSecret",
-            "value": "",
+            "description": "RingCentral app Client Secret",
             "required": true
         },
         "RINGCENTRAL_SERVER_URL": {
