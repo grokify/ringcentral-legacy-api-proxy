@@ -1,4 +1,4 @@
-- 2017-03-25
-  - Initial commit
 - 2018-05-17
   - Update to use [`go-ringcentral`](https://github.com/grokify/go-ringcentral)
+- 2017-03-25
+  - Initial commit
