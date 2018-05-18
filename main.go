@@ -158,7 +158,7 @@ func ringoutList(res http.ResponseWriter, apiClient *rc.APIClient, format string
 		res.Header().Set(hum.HeaderContentType, hum.HeaderContentTypeValueJSONUTF8)
 		res.Write(bytes)
 	} else {
-		res.Header().Set(hum.HeaderContentType, "text/plain; charset=us-ascii")
+		res.Header().Set(hum.HeaderContentType, hum.HeaderContentTypeValueTextPlainUsAscii)
 		res.Write([]byte(ringoutListLegacyResponseBody(info.Records)))
 	}
 }
@@ -205,7 +205,7 @@ func ringoutCall(res http.ResponseWriter, apiClient *rc.APIClient, ringOut ru.Ri
 		res.Header().Set(hum.HeaderContentType, hum.HeaderContentTypeValueJSONUTF8)
 		res.Write(bytes)
 	} else {
-		res.Header().Set(hum.HeaderContentType, "text/plain; charset=us-ascii")
+		res.Header().Set(hum.HeaderContentType, hum.HeaderContentTypeValueTextPlainUsAscii)
 		res.Write([]byte(fmt.Sprintf("OK %s", info.Id)))
 	}
 }
