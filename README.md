@@ -88,7 +88,6 @@ Note: the [`app.json`](https://github.com/grokify/ringcentral-legacy-api-proxy/b
 ```
 $ go get github.com/grokify/ringcentral-legacy-api-proxy
 $ cd ringcentral-legacy-api-proxy
-$ go get ./...
 $ go build main.go
 $ RINGCENTRAL_SERVER_URL=https://platform.devtest.ringcentral.com \
   RINGCENTRAL_CLIENT_ID=<myClientId> \
