@@ -5,6 +5,8 @@ RingCentral Legacy API Proxy
 [![Go Report Card][goreport-svg]][goreport-link]
 [![Docs][docs-godoc-svg]][docs-godoc-link]
 [![License][license-svg]][license-link]
+[![Stack Overflow][stackoverflow-svg]][stackoverflow-url]
+[![Chat][chat-svg]][chat-url]
 
  [build-status-svg]: https://api.travis-ci.org/grokify/ringcentral-legacy-api-proxy.svg?branch=master
  [build-status-link]: https://travis-ci.org/grokify/ringcentral-legacy-api-proxy
@@ -14,6 +16,10 @@ RingCentral Legacy API Proxy
  [docs-godoc-link]: https://godoc.org/github.com/grokify/ringcentral-legacy-api-proxy
  [license-svg]: https://img.shields.io/badge/license-MIT-blue.svg
  [license-link]: https://github.com/grokify/ringcentral-legacy-api-proxy/blob/master/LICENSE
+ [chat-svg]: https://img.shields.io/badge/chat-on%20glip-orange.svg
+ [chat-url]: https://glipped.herokuapp.com/
+ [stackoverflow-svg]: https://img.shields.io/badge/Stack%20Overflow-ringcentral-orange.svg
+ [stackoverflow-url]: https://stackoverflow.com/questions/tagged/ringcentral
 
 This is a proxy service that allows apps using RingCentral's older APIs to use the new [RingCentral REST APIs](https://developer.ringcentral.com) seamlessly.
 
