@@ -1,0 +1,1 @@
+web: ringcentral-legacy-api-proxy

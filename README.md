@@ -19,3 +19,17 @@ This is a proxy service that allows apps using RingCentral's older APIs to use t
 
 * https://service.ringcentral.com/ringoutapi/
 * https://service.ringcentral.com/faxoutapi/
+
+## Installation
+
+### Deploying to Heroku
+
+```sh
+$ heroku create
+$ git push heroku master
+$ heroku open
+```
+
+or
+
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)

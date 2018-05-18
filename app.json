@@ -1,0 +1,31 @@
+{
+    "name": "RingCentral Legacy API Proxy",
+    "description": "Go app proxy Legacy API schema to new RingCentral REST API",
+    "keywords": [
+        "ringcentral",
+        "legacy",
+        "go"
+    ],
+    "website": "http://github.com/grokify/ringcentral-legacy-api-proxy",
+    "repository": "http://github.com/heroku/ringcentral-legacy-api-proxy",
+    "addons": [
+        "papertrail:choklad"
+    ],
+    "env": {
+        "RINGCENTRAL_CLIENT_ID": {
+            "description": "RingCentral app ClientId",
+            "value": "https://platform.ringcentral.com",
+            "required": true
+        },
+        "RINGCENTRAL_CLIENT_SECRET": {
+            "description": "RingCentral app ClientSecret",
+            "value": "",
+            "required": true
+        },
+        "RINGCENTRAL_SERVER_URL": {
+            "description": "RingCentral API Server URL, e.g. https://platform.ringcentral.com or https://platform.devtest.ringcentral.com",
+            "value": "",
+            "required": true
+        }
+    }
+}
