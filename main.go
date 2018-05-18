@@ -50,8 +50,7 @@ func (h *Handler) RingOut(res http.ResponseWriter, req *http.Request) {
 	}
 
 	info, resp, err := apiClient.RingOutApi.MakeRingOutCallNew(
-		context.Background(), "~", "~", *ringOut.Body(),
-	)
+		context.Background(), "~", "~", *ringOut.Body())
 	if err != nil {
 		res.WriteHeader(http.StatusBadRequest)
 		return
