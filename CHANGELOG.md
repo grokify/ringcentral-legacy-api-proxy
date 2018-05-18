@@ -1,5 +1,6 @@
 - 2018-05-17
   - Update to use [`go-ringcentral`](https://github.com/grokify/go-ringcentral)
   - Add Heroku support
+  - Add original Legacy API docs
 - 2017-03-25
   - Initial commit
