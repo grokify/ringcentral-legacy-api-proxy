@@ -34,7 +34,7 @@ The following calls with checks are currently supported:
 * [ ] [RingOut `cancel` command](https://grokify.github.io/ringcentral-legacy-api-proxy/ringoutapi.html#cancel)
 * [ ] [FaxOut](https://grokify.github.io/ringcentral-legacy-api-proxy/faxoutapi.html)
 
-Note: a new query string parameter is provided: `format=json` which instructs the service to return the REST API JSON response. If this is not provided, the response is converted to a legacy API response.
+Note: a new query string parameter is provided, `format=json`, which instructs the service to return the REST API JSON response. If this is not provided, the response is converted to a legacy API response.
 
 ## Prerequisites
 
