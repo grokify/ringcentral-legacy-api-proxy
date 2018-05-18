@@ -35,6 +35,17 @@ type RingOutRequestParams struct {
 	SessionID string `schema:"sessionid"`
 }
 
+// HasValidCommand returns true if `cmd` is set to a supported value.
+func (params *RingOutRequestParams) HasValidCommand() bool {
+	params.Cmd = strings.ToLower(params.Cmd)
+	cmds := map[string]int{"call": 1, "list": 1, "status": 1, "cancel": 1}
+	cmds = map[string]int{"call": 1}
+	if _, ok := cmds[params.Cmd]; ok {
+		return true
+	}
+	return false
+}
+
 // PlayPrompt returns the prompt parameter converted to a boolean.
 func (params *RingOutRequestParams) PlayPrompt() bool {
 	if params.Prompt == "1" {
@@ -64,6 +75,9 @@ func (h *Handler) RingOut(res http.ResponseWriter, req *http.Request) {
 	if err != nil {
 		res.WriteHeader(http.StatusBadRequest)
 		return
+	} else if !reqParams.HasValidCommand() {
+		res.WriteHeader(http.StatusBadRequest)
+		return
 	}
 
 	pwdCredentials := ro.PasswordCredentials{
@@ -78,7 +92,7 @@ func (h *Handler) RingOut(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	switch reqParams.Cmd {
+	switch strings.ToLower(reqParams.Cmd) {
 	case "call":
 		ringOut := ru.RingOutRequest{
 			To:         reqParams.To,
