@@ -2,7 +2,7 @@ CHANGELOG
 ---------
 - 2018-05-17
   - Support RingOut `call` and `list` RPC APIs
-  - Update to use [`go-ringcentral`](https://github.com/grokify/go-ringcentral)
+  - Update to use [`go-ringcentral`](https://github.com/grokify/go-ringcentral) SDK
   - Add Heroku support
   - Add original Legacy API docs
 - 2017-03-25
