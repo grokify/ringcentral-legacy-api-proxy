@@ -38,10 +38,8 @@ type RingOutRequestParams struct {
 
 // HasValidCommand returns true if `cmd` is set to a supported value.
 func (params *RingOutRequestParams) HasValidCommand() bool {
-	params.Cmd = strings.ToLower(params.Cmd)
-	cmds := map[string]int{"call": 1, "list": 1, "status": 1, "cancel": 1}
-	cmds = map[string]int{"call": 1}
-	if _, ok := cmds[params.Cmd]; ok {
+	cmds := map[string]int{"call": 1, "list": 0, "status": 0, "cancel": 0}
+	if val, ok := cmds[strings.ToLower(params.Cmd)]; ok && val == 1 {
 		return true
 	}
 	return false
