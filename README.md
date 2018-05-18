@@ -18,7 +18,7 @@ RingCentral Legacy API Proxy
  [license-link]: https://github.com/grokify/ringcentral-legacy-api-proxy/blob/master/LICENSE
  [chat-svg]: https://img.shields.io/badge/chat-on%20glip-orange.svg
  [chat-url]: https://glipped.herokuapp.com/
- [stackoverflow-svg]: https://img.shields.io/badge/Stack%20Overflow-ringcentral-orange.svg
+ [stackoverflow-svg]: https://img.shields.io/badge/stack%20overflow-ringcentral-orange.svg
  [stackoverflow-url]: https://stackoverflow.com/questions/tagged/ringcentral
 
 This is a proxy service that allows apps using RingCentral's older APIs to use the new [RingCentral REST APIs](https://developer.ringcentral.com) seamlessly.
