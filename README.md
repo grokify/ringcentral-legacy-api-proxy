@@ -40,7 +40,7 @@ Note: a new query string parameter is provided, `format=json`, which instructs t
 
 The following are required to use this app.
 
-1. Account at https://developer.ringcentral.com
+1. A RingCentral developer account available at https://developer.ringcentral.com
 2. An application that supports the "Password grant" OAuth 2.0 flow and the `RingOut` and `ReadAccounts` (RingOut list), and `Faxes` permissions. Only add the permissions you need:
 
 | Permission | Required for |
