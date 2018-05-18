@@ -67,6 +67,10 @@ or
 
 After you click the button above, you will need to enter the environment variables above into the Heroku web console.
 
+Once this is up, you can make API calls by swapping `service.ringcentral.com` for your Heroku hostname, e.g. `myherokuapp.herokuapp.com` as follows:
+
+https://<myHerokuApp>.herokuapp.com/ringout.asp?cmd=call&username=<myUsername>&password=<myPassword>&to=<myToNumber>&from=<myFromNumber>'
+
 Note: the [`app.json`](https://github.com/grokify/ringcentral-legacy-api-proxy/blob/master/app.json#L17) specifies a free dyno which will sleep due to inactivity. If you wish to use Heroku dyno that does not sleeps, clone this repo and update your `app.json`. Learn more about Heroku Dyno types here:
 
 * https://devcenter.heroku.com/articles/dyno-types
