@@ -21,7 +21,7 @@ RingCentral Legacy API Proxy
  [stackoverflow-svg]: https://img.shields.io/badge/stack%20overflow-ringcentral-orange.svg
  [stackoverflow-url]: https://stackoverflow.com/questions/tagged/ringcentral
 
-This is a proxy service that allows apps using RingCentral's older APIs to use the new [RingCentral REST APIs](https://developer.ringcentral.com) seamlessly.
+This is a proxy service that allows apps using RingCentral's older RPC APIs to use the new [RingCentral REST APIs](https://developer.ringcentral.com) seamlessly.
 
 * https://service.ringcentral.com/ringoutapi/ ([docs](https://grokify.github.io/ringcentral-legacy-api-proxy/ringoutapi.html))
 * https://service.ringcentral.com/faxoutapi/ ([docs](https://grokify.github.io/ringcentral-legacy-api-proxy/faxoutapi.html))
