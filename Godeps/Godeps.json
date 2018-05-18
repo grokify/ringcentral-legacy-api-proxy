@@ -36,46 +36,46 @@
 		},
 		{
 			"ImportPath": "github.com/grokify/gotilla/config",
-			"Rev": "036031759bb0b22b9c82be35ea1cbe370eb1ed0c"
+			"Rev": "2978a64a54efda672b05f9da9a24b2d809947e13"
 		},
 		{
 			"ImportPath": "github.com/grokify/gotilla/io/ioutilmore",
-			"Rev": "036031759bb0b22b9c82be35ea1cbe370eb1ed0c"
+			"Rev": "2978a64a54efda672b05f9da9a24b2d809947e13"
 		},
 		{
 			"ImportPath": "github.com/grokify/gotilla/net/httputilmore",
-			"Rev": "036031759bb0b22b9c82be35ea1cbe370eb1ed0c"
+			"Rev": "2978a64a54efda672b05f9da9a24b2d809947e13"
 		},
 		{
 			"ImportPath": "github.com/grokify/gotilla/net/urlutil",
-			"Rev": "036031759bb0b22b9c82be35ea1cbe370eb1ed0c"
+			"Rev": "2978a64a54efda672b05f9da9a24b2d809947e13"
 		},
 		{
 			"ImportPath": "github.com/grokify/gotilla/os/osutil",
-			"Rev": "036031759bb0b22b9c82be35ea1cbe370eb1ed0c"
+			"Rev": "2978a64a54efda672b05f9da9a24b2d809947e13"
 		},
 		{
 			"ImportPath": "github.com/grokify/gotilla/strconv/strconvutil",
-			"Rev": "036031759bb0b22b9c82be35ea1cbe370eb1ed0c"
+			"Rev": "2978a64a54efda672b05f9da9a24b2d809947e13"
 		},
 		{
 			"ImportPath": "github.com/grokify/gotilla/time/timeutil",
-			"Rev": "036031759bb0b22b9c82be35ea1cbe370eb1ed0c"
+			"Rev": "2978a64a54efda672b05f9da9a24b2d809947e13"
 		},
 		{
 			"ImportPath": "github.com/grokify/oauth2more",
-			"Comment": "v0.2.0-45-ge1ae18f",
-			"Rev": "e1ae18fbcf59eb9770e0eeb4104d03bc788b7145"
+			"Comment": "v0.2.0-46-g6fa5eb6",
+			"Rev": "6fa5eb605e1e6beda9db128ec831e431f5e19272"
 		},
 		{
 			"ImportPath": "github.com/grokify/oauth2more/ringcentral",
-			"Comment": "v0.2.0-45-ge1ae18f",
-			"Rev": "e1ae18fbcf59eb9770e0eeb4104d03bc788b7145"
+			"Comment": "v0.2.0-46-g6fa5eb6",
+			"Rev": "6fa5eb605e1e6beda9db128ec831e431f5e19272"
 		},
 		{
 			"ImportPath": "github.com/grokify/oauth2more/scim",
-			"Comment": "v0.2.0-45-ge1ae18f",
-			"Rev": "e1ae18fbcf59eb9770e0eeb4104d03bc788b7145"
+			"Comment": "v0.2.0-46-g6fa5eb6",
+			"Rev": "6fa5eb605e1e6beda9db128ec831e431f5e19272"
 		},
 		{
 			"ImportPath": "github.com/joho/godotenv",

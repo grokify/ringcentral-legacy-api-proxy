@@ -158,10 +158,10 @@ func ringoutList(res http.ResponseWriter, apiClient *rc.APIClient, format string
 	}
 
 	if format == "json" {
-		res.Header().Set(hum.HeaderContentType, hum.HeaderContentTypeValueJSONUTF8)
+		res.Header().Set(hum.HeaderContentType, hum.ContentTypeAppJsonUtf8)
 		res.Write(bytes)
 	} else {
-		res.Header().Set(hum.HeaderContentType, hum.HeaderContentTypeValueTextPlainUsAscii)
+		res.Header().Set(hum.HeaderContentType, hum.ContentTypeTextPlainUsAscii)
 		res.Write([]byte(ringoutListLegacyResponseBody(info.Records)))
 	}
 }
@@ -205,10 +205,10 @@ func ringoutCall(res http.ResponseWriter, apiClient *rc.APIClient, ringOut ru.Ri
 	}
 
 	if format == "json" {
-		res.Header().Set(hum.HeaderContentType, hum.HeaderContentTypeValueJSONUTF8)
+		res.Header().Set(hum.HeaderContentType, hum.ContentTypeAppJsonUtf8)
 		res.Write(bytes)
 	} else {
-		res.Header().Set(hum.HeaderContentType, hum.HeaderContentTypeValueTextPlainUsAscii)
+		res.Header().Set(hum.HeaderContentType, hum.ContentTypeTextPlainUsAscii)
 		res.Write([]byte(fmt.Sprintf("OK %s", info.Id)))
 	}
 }
