@@ -93,6 +93,7 @@ func main() {
 		panic(err)
 	}
 
+	// PORT environment variable is automatically set for Heroku.
 	portRaw := os.Getenv("PORT")
 	port, err := strconv.Atoi(portRaw)
 	if err != nil {

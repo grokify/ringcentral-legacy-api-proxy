@@ -20,6 +20,16 @@ This is a proxy service that allows apps using RingCentral's older APIs to use t
 * https://service.ringcentral.com/ringoutapi/
 * https://service.ringcentral.com/faxoutapi/
 
+## Configuration
+
+This application needs the following configuration variables:
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `RINGCENTRAL_CLIENT_ID` | yes | Your application's Client ID |
+| `RINGCENTRAL_CLIENT_SECRET` | yes | Your application's Client Secret |
+| `RINGCENTRAL_SERVER_URL` | yes | Your RingCentral server url, e.g. Sandbox: https://platform.devtest.ringcentral.com , Production: https://platform.ringcentral.com |
+
 ## Installation
 
 ### Deploying to Heroku
