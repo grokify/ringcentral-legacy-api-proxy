@@ -18,12 +18,15 @@ import (
 	ro "github.com/grokify/oauth2more/ringcentral"
 )
 
+// Handler is a struct to hold the service handlers.
 type Handler struct {
 	AppPort        int
 	APIClient      *rc.APIClient
 	AppCredentials *ro.ApplicationCredentials
 }
 
+// RingOut is a net/http handler for performing a RingOut API
+// call using the RingCentral legacy ringout.asp API definition.
 func (h *Handler) RingOut(res http.ResponseWriter, req *http.Request) {
 	reqUtil := nhu.RequestUtil{Request: req}
 
