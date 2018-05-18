@@ -44,9 +44,7 @@ or
 
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 
-More information on deploying Go on Heroku here:
-
-* https://devcenter.heroku.com/articles/go-support
+After you click the button above, you will need to enter the environment variables above into the Heroku web console.
 
 ## Notes
 
@@ -55,3 +53,7 @@ Rebuild `vendor` directory with:
 ```
 $ godep save ./...
 ```
+
+More information on deploying Go on Heroku here:
+
+* https://devcenter.heroku.com/articles/go-support
