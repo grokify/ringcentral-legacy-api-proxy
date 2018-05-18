@@ -17,8 +17,8 @@ RingCentral Legacy API Proxy
 
 This is a proxy service that allows apps using RingCentral's older APIs to use the new [RingCentral REST APIs](https://developer.ringcentral.com) seamlessly.
 
-* https://service.ringcentral.com/ringoutapi/
-* https://service.ringcentral.com/faxoutapi/
+* https://service.ringcentral.com/ringoutapi/ ([docs](https://grokify.github.io/ringcentral-legacy-api-proxy/ringoutapi.html))
+* https://service.ringcentral.com/faxoutapi/ ([docs](https://grokify.github.io/ringcentral-legacy-api-proxy/faxoutapi.html))
 
 ## Prerequisites
 
