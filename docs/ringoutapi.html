@@ -1,0 +1,288 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=utf-8">
+<title>RingOut API</title>
+<style type="text/css">
+a:hover {
+	color: #FF0000;
+}
+p, li, td {
+	font-family: Arial,Helvetica;
+	font-size: small;
+}
+.style_AccountTitle {
+	font-family: Arial, Helvetica, Geneva;
+	font-size: 18px;
+	color: #000000;
+}
+.style_Caption {
+	font-family: Arial, Helvetica, Geneva;
+	font-size: 14px;
+	font-weight: bold;
+	color: #ffffff;
+	margin-left: 4px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+
+</style>
+</head>
+<body bgcolor="#FFFFFF" text="#000000" link="#2B3C81" vlink="#2B3C81" alink="#FF0000"
+	marginheight=12 marginwidth=12 topmargin=12 leftmargin=12>
+<table width=740 border=0 cellpadding=0 cellspacing=0>
+<tr>
+	<td width=144 valign="top" height=68><a href="http://www.ringcentral.com" target="_top"><img
+			src="./rc-logo-white-background.gif" border=0></td>
+	<td width=472 valign="top" align="center"><p class="style_AccountTitle"></p></td>
+	<td width=144 valign="top"></td>
+</tr>
+<tr><td colspan=3 height=5 /></tr>
+<tr>
+	<td colspan=3 style="border-style:groove; border-color:#ced8e8; border-width:3px; padding:5px;">
+		NOTICE:<br>
+		<strong>The RingOut.asp API is deprecated as of March 15, 2018.</strong><br>
+		Existing RingOut.asp API client applications will continue to work normally until Release 10.2, targeted for July 5, 2018.<br>
+		Please plan to migrate to our new, more fully-featured REST API as described in our Developer Guide:<br>
+		<a href="https://ringcentral-api-docs.readthedocs.io/en/latest/legacy_api_upgrade/">https://ringcentral-api-docs.readthedocs.io/en/latest/legacy_api_upgrade/</a>
+	</td>
+</tr>
+<tr><td colspan=3 height=5 /></tr>
+<tr>
+	<td colspan=3 height=23 bgcolor="#3969ea" background="/assets/skins/default/img/common/bg_menu.gif"><p class="style_Caption">RingOut API</p></td>
+</tr>
+<tr>
+	<td colspan=3><img src="/assets/skins/default/img/dot.gif" width=1 height=8></td>
+</tr>
+</table>
+
+<table width=740 cellspacing=0 cellpadding=0 border=0>
+<tr>
+	<td>
+	<p>The RingOut API allows RingCentral customers to invoke the RingOut functionality from a 
+	third party application, such as a custom-built database. The API includes 4 commands 
+	accessible via a standard HTTP GET or POST call.</p>
+
+	<ol style="line-height:150%">
+		<li><b><a href="#list">List</a></b> - Get a list of all the numbers you can use to place the call
+		(the phone numbers in the specified users account).</li>
+		<li><b><a href="#call">Call</a></b> - Place call.</li>
+		<li><b><a href="#status">Status</a></b> - Get current call status.</li>
+		<li><b><a href="#cancel">Cancel</a></b> - Cancel call.</li>
+	</ol>
+
+	<p>Commands are invoked using secure ASP script located at:<br>
+	<font face="Courier" color="navy">https://service.ringcentral.com/ringout.asp</font></p>
+	
+	<p><b>Important!</b> Clients are required to store HTTP cookies returned by the API server and send them in all subsequent requests during the session.</p>
+	
+	<p>For simplicity purposes, the examples below show how to call API commands using HTTP GET method with
+	parameters passed in the URL query string. Also, all the commands can be called using HTTP POST method 
+	with exactly same parameters passed in the request body.</p>
+	
+	<h3 style="text-size:medium"><a name="list"></a>1. List</h3>
+	
+	<p>Returns a semicolon-separated list of phone numbers from which you can make outbound calls.
+	One of these numbers should be used for the "From" parameter in the "Call" command (see the table below).</p>
+	
+	<table width=600 cellpadding=0 cellspacing=0 border=0>
+	<tr>
+		<td bgcolor="black"><table width="100%" cellpadding=4 cellspacing=1>
+		<tr>
+			<td width="50%" bgcolor="#0066cc"><b style="color:white">Parameter</b>
+			<td width="50%" bgcolor="#0066cc"><b style="color:white">Description</b>
+		</tr>
+		<tr>
+			<td bgcolor="white"><font face="Courier">Cmd</font></td>
+			<td bgcolor="white">Command identification: "list"</td>
+		</tr>
+		<tr>
+			<td bgcolor="white"><font face="Courier">Username</font></td>
+			<td bgcolor="white">RingCentral main phone number in full format that includes the country code</td>
+		</tr>
+		<tr>
+			<td bgcolor="white"><font face="Courier">Ext</font></td>
+			<td bgcolor="white">Extension number</td>
+		</tr>
+		<tr>
+			<td bgcolor="white"><font face="Courier">Password</font></td>
+			<td bgcolor="white">Account's password</td>
+		</tr>
+		</table></td>
+	</tr>
+	</table>
+	
+	<p>
+	Responses:<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Success: OK &lt;list of phone numbers and labels separated by a semicolon&gt;<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Error: all other responses which do not include OK.
+	<br><br>
+	<b>Example</b><br>
+	<font face="Courier" color="navy">https://service.ringcentral.com/ringout.asp?cmd=list&amp;username=18889363711&amp;ext=101&amp;password=1234</font>
+	<br><br>
+	Response<br>
+	OK 6505553711;Home;6505551550;Business;6505551233;Mobile
+	</p>
+	
+	<h3 style="text-size:medium"><a name="call"></a>2. Call</h3>
+	
+	<p>Places a call and returns a Session ID call and WS if successful.</p>
+	
+	<table width=600 cellpadding=0 cellspacing=0 border=0>
+	<tr>
+		<td bgcolor="black"><table width="100%" cellpadding=4 cellspacing=1>
+		<tr>
+			<td width="50%" bgcolor="#0066cc"><b style="color:white">Parameter</b>
+			<td width="50%" bgcolor="#0066cc"><b style="color:white">Description</b>
+		</tr>
+		<tr>
+			<td bgcolor="white"><font face="Courier">Cmd</font></td>
+			<td bgcolor="white">Command identification: "call"</td>
+		</tr>
+		<tr>
+			<td bgcolor="white"><font face="Courier">Username</font></td>
+			<td bgcolor="white">RingCentral main phone number in full format that includes the country code</td>
+		</tr>
+		<tr>
+			<td bgcolor="white"><font face="Courier">Ext</font></td>
+			<td bgcolor="white">Extension number</td>
+		</tr>
+		<tr>
+			<td bgcolor="white"><font face="Courier">Password</font></td>
+			<td bgcolor="white">Account's password</td>
+		</tr>
+		<tr>
+			<td bgcolor="white"><font face="Courier">To</font></td>
+			<td bgcolor="white">Destination number</td>
+		</tr>
+		<tr>
+			<td bgcolor="white"><font face="Courier">From</font></td>
+			<td bgcolor="white">Call back number</td>
+		</tr>
+		<tr>
+			<td bgcolor="white"><font face="Courier">Clid</font></td>
+			<td bgcolor="white">Caller ID number</td>
+		</tr>
+		<tr>
+			<td bgcolor="white"><font face="Courier">Prompt</font></td>
+			<td bgcolor="white">"1" to prompt user to press "1" to connect</td>
+		</tr>
+		</table></td>
+	</tr>
+	</table>
+
+	<p>
+	Responses:<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Success: OK &lt;Session ID&gt; &lt;WS&gt;<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Error: all other responses which do not include OK.
+	<br><br>
+	<b>Example</b><br>
+	<font face="Courier" color="navy">https://service.ringcentral.com/ringout.asp?cmd=call&amp;username=18889363711&amp;ext=101&amp;password=1234&amp;<br>to=6505551230&amp;from=6505551231&amp;clid=8889363711&amp;prompt=1</font>
+	<br><br>
+	Response<br>
+	OK Y3MxNzE4NDE3NzQxMTY4NzczMEAxMC42Mi4yNC4yMzg 3
+	</p>
+
+	<h3 style="text-size:medium"><a name="status"></a>3. Status</h3>
+	
+	<p>Returns current status of a call.</p>
+	
+	<table width=600 cellpadding=0 cellspacing=0 border=0>
+	<tr>
+		<td bgcolor="black"><table width="100%" cellpadding=4 cellspacing=1>
+		<tr>
+			<td width="50%" bgcolor="#0066cc"><b style="color:white">Parameter</b>
+			<td width="50%" bgcolor="#0066cc"><b style="color:white">Description</b>
+		</tr>
+		<tr>
+			<td bgcolor="white"><font face="Courier">Cmd</font></td>
+			<td bgcolor="white">Command identification: "status"</td>
+		</tr>
+		<tr>
+			<td bgcolor="white"><font face="Courier">SessionID</font></td>
+			<td bgcolor="white">&lt;Session ID&gt; received from server</td>
+		</tr>
+		</table></td>
+	</tr>
+	</table>
+
+	<p>
+	Responses:<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Completed calls: OK &lt;Session ID&gt; &lt;space&gt;<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In other cases: OK &lt;Session ID&gt; followed by 5 groups separated by ';':
+	<ol>
+		<li>General call status number:
+		<br><br>
+		<ul style="list-style-type:disc">
+			<li>0 - Success</li>
+			<li>1 - In Progress</li>
+			<li>2 - Busy</li>
+			<li>3 - No Answer</li>
+			<li>4 - Rejected</li>
+			<li>5 - Generic Error</li>
+			<li>6 - Finished</li>
+			<li>7 - International calls disabled</li>
+			<li>8 - Destination number prohibited</li>
+		</ul>
+		<br></li>
+		<li>Destination number<br><br></li>
+		<li>Destination status (the same as #1)<br><br></li>
+		<li>Call back number<br><br></li>
+		<li>Call back status (the same as #1)</li>
+	</ol>
+	
+	<b>Example</b><br>
+	<font face="Courier" color="navy">https://service.ringcentral.com/ringout.asp?cmd=status&amp;sessionid=Y3MxNzE4NDE3NzQxMTY4NzczMEAxMC42Mi4yNC4yMzg</font>
+	<br><br>
+	Response:<br>
+	OK Y3MxNzE4NDE3NzQxMTY4NzczMEAxMC42Mi4yNC4yMzg 1;+16505551231;1<br>
+	OK Y3MxNzE4NDE3NzQxMTY4NzczMEAxMC42Mi4yNC4yMzg 1;+6505551230;1;+16505551231;0
+	</p>
+
+	<h3 style="text-size:medium"><a name="cencel"></a>4. Cancel</h3>
+	
+	<p>Cancel a call.</p>
+	
+	<table width=600 cellpadding=0 cellspacing=0 border=0>
+	<tr>
+		<td bgcolor="black"><table width="100%" cellpadding=4 cellspacing=1>
+		<tr>
+			<td width="50%" bgcolor="#0066cc"><b style="color:white">Parameter</b>
+			<td width="50%" bgcolor="#0066cc"><b style="color:white">Description</b>
+		</tr>
+		<tr>
+			<td bgcolor="white"><font face="Courier">Cmd</font></td>
+			<td bgcolor="white">Command identification: "cancel"</td>
+		</tr>
+		<tr>
+			<td bgcolor="white"><font face="Courier">SessionID</font></td>
+			<td bgcolor="white">&lt;Session ID&gt; received from server</td>
+		</tr>
+		</table></td>
+	</tr>
+	</table>
+
+	<p>
+	<b>Example</b><br>
+	<font face="Courier" color="navy">https://service.ringcentral.com/ringout.asp?cmd=cancel&amp;sessionid=Y3MxNzE4NDE3NzQxMTY4NzczMEAxMC42Mi4yNC4yMzg </font>
+	<br><br>
+	Response:<br>
+	OK Y3MxNzE4NDE3NzQxMTY4NzczMEAxMC42Mi4yNC4yMzg
+	</p>	
+	</td>
+</tr>
+<tr>
+	<td align="center">
+	<hr size=1 style="margin-top:10px;margin-bottom:10px">
+	<p style="margin-top:10px;margin-bottom:20px"><font face="Arial" size=1>
+	<a href="http://www.ringcentral.com/tou.html" target="_blank">Terms of Use</a> 
+	| <a href="http://www.ringcentral.com/tou.html#19" target="_blank">Privacy Policy</a>
+	<br>
+	Copyright &copy; 1999-2009 RingCentral, Inc. All rights reserved.
+	</font></p>
+	</td>
+</tr>
+</table>
+</body>
+</html>

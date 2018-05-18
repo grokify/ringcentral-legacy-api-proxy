@@ -1,0 +1,302 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=utf-8">
+<title>Fax API</title>
+<style type="text/css">
+a:hover {
+	color: #FF0000;
+}
+p, li, td {
+	font-family: Arial,Helvetica;
+	font-size: small;
+}
+.style_AccountTitle {
+	font-family: Arial, Helvetica, Geneva;
+	font-size: 18px;
+	color: #000000;
+}
+.style_Caption {
+	font-family: Arial, Helvetica, Geneva;
+	font-size: 14px;
+	font-weight: bold;
+	color: #ffffff;
+	margin-left: 4px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+</style>
+</head>
+<body bgcolor="#FFFFFF" text="#000000" link="#2B3C81" vlink="#2B3C81" alink="#FF0000"
+	marginheight=12 marginwidth=12 topmargin=12 leftmargin=12>
+<table width=740 border=0 cellpadding=0 cellspacing=0>
+<tr>
+	<td width=144 valign="top" height=68><a href="http://www.ringcentral.com" target="_top"><img
+			src="./rc-logo-white-background.gif" border=0></td>
+	<td width=472 valign="top" align="center"></td>
+	<td width=144 valign="top"></td>
+</tr>
+<tr>
+	<td colspan=3 height=23 bgcolor="#3969ea" background="/assets/skins/default/img/common/bg_menu.gif"><p class="style_Caption">FaxOut API</p></td>
+</tr>
+<tr>
+	<td colspan=3><img src="/picture/dot.gif" width=1 height=8></td>
+</tr>
+</table>
+ 
+<table width=740 cellspacing=0 cellpadding=0 border=0>
+<tr>
+	<td>
+	
+	<p>Send Fax Web API is based on a single HTTP POST request with multipart/form-data body through which un-rendered fax data is passed to the web. An appropriate response containing request execution result should be returned back to requesting application. The response only says if the fax has been accepted or not. Sending status will be provided to user by email.
+HTTPS protocol is proposed for using with Send Fax Web API for better security.</p>
+ 
+	<p>ASP script located at:<br>
+	<font face="Courier" color="navy">https://service.ringcentral.com/faxapi.asp</font></p>
+	
+	<h3 style="text-size:medium"><a name="list"></a>1. Request format</h3>
+	
+	<p>List of recipients, documents, send options etc are considered as separate multipart/form-data body-parts of the request body.</p>
+	
+	<table width=600 cellpadding=0 cellspacing=0 border=0>
+	<tr>
+		<td bgcolor="black"><table width="100%" cellpadding=4 cellspacing=1>
+		<tr>
+			<td width="20%" bgcolor="#0066cc"><b style="color:white">Field</b>
+			<td width="80%" bgcolor="#0066cc"><b style="color:white">Description</b>
+		</tr>
+		<tr>
+			<td bgcolor="white" valign="top"><font face="Courier">Username</font></td>
+			<td bgcolor="white" valign="top">
+				<table>
+					<tr>
+						<td valign="top" width="20%"><i>Description:</i></td><td valign="top" width="80%">Represents user phone number and extension</td>
+					</tr>
+					<tr>
+						<td valign="top"><i>Possible values:</i></td><td valign="top"></td>
+					</tr>
+					<tr>
+						<td valign="top"><i>Format:</i></td><td valign="top">ASCII string in full format that includes the country code &lt;phonenumber&gt;[*&lt;extension&gt;.]. If  a user uses master account then extension part is not passed.</td>
+					</tr>
+					<tr>
+						<td valign="top"><i>Number of occurrences:</i></td><td valign="top">one</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td bgcolor="white" valign="top"><font face="Courier">Password</font></td>
+			<td bgcolor="white" valign="top">
+				<table>
+					<tr>
+						<td valign="top" width="20%"><i>Description:</i></td><td valign="top" width="80%">Represents user password</td>
+					</tr>
+					<tr>
+						<td valign="top"><i>Possible values:</i></td><td valign="top"></td>
+					</tr>
+					<tr>
+						<td valign="top"><i>Format:</i></td><td valign="top">ASCII string</td>
+					</tr>
+					<tr>
+						<td valign="top"><i>Number of occurrences:</i></td><td valign="top">no more then one</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td bgcolor="white" valign="top"><font face="Courier">Recipient</font></td>
+			<td bgcolor="white" valign="top">
+				<table>
+					<tr>
+						<td valign="top" width="20%"><i>Description:</i></td><td valign="top" width="80%">Represents single fax recipient and consists of pair phone number and name</td>
+					</tr>
+					<tr>
+						<td valign="top"><i>Possible values:</i></td><td valign="top">Recipient number is mandatory, recipient name is optional.</td>
+					</tr>
+					<tr>
+						<td valign="top"><i>Format:</i></td><td valign="top">ASCII string, passed as in following format: &lt;recipient number&gt;|&lt;recipient name&gt; ("|" character is a separator)</td>
+					</tr>
+					<tr>
+						<td valign="top"><i>Number of occurrences:</i></td><td valign="top">more or equal then one</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td bgcolor="white" valign="top"><font face="Courier">Coverpage</font></td>
+			<td bgcolor="white" valign="top">
+				<table>
+					<tr>
+						<td valign="top" width="20%"><i>Description:</i></td><td valign="top" width="80%">Name of fax cover page.</td>
+					</tr>
+					<tr>
+						<td valign="top"><i>Possible values:</i></td><td valign="top">
+							-	<b>None.</b> Cover page is not used<br>
+							-	<b>Default.</b> Default cover page<br>
+							-	<b>&lt;Name&gt;</b> - name of a cover page. Should correspond to one of the cover pages installed on rendering server.<br>
+							If parameter is not specified or its value is empty then default cover page will be used. There should only one coverpage parameter in request.
+						</td>
+					</tr>
+					<tr>
+						<td valign="top"><i>Format:</i></td><td valign="top">ASCII string</td>
+					</tr>
+					<tr>
+						<td valign="top"><i>Number of occurrences:</i></td><td valign="top">no more then one</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td bgcolor="white" valign="top"><font face="Courier">Coverpagetext</font></td>
+			<td bgcolor="white" valign="top">
+				<table>
+					<tr>
+						<td valign="top" width="20%"><i>Description:</i></td><td valign="top" width="80%">Represents text printed on fax cover page.</td>
+					</tr>
+					<tr>
+						<td valign="top"><i>Possible values:</i></td><td valign="top"></td>
+					</tr>
+					<tr>
+						<td valign="top"><i>Format:</i></td><td valign="top">ASCII string.</td>
+					</tr>
+					<tr>
+						<td valign="top"><i>Number of occurrences:</i></td><td valign="top">no more then one</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td bgcolor="white" valign="top"><font face="Courier">Resolution</font></td>
+			<td bgcolor="white" valign="top">
+				<table>
+					<tr>
+						<td valign="top" width="20%"><i>Description:</i></td><td valign="top" width="80%">Represents resolution in which fax will be sent to recipients.</td>
+					</tr>
+					<tr>
+						<td valign="top"><i>Possible values:</i></td><td valign="top">
+							-	<b>Low</b><br>
+							-	<b>High</b>
+						</td>
+					</tr>
+					<tr>
+						<td valign="top"><i>Format:</i></td><td valign="top">ASCII string.</td>
+					</tr>
+					<tr>
+						<td valign="top"><i>Number of occurrences:</i></td><td valign="top">no more then one</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td bgcolor="white" valign="top"><font face="Courier">Sendtime</font></td>
+			<td bgcolor="white" valign="top">
+				<table>
+					<tr>
+						<td valign="top" width="20%"><i>Description:</i></td><td valign="top" width="80%">Schedule time.</td>
+					</tr>
+					<tr>
+						<td valign="top"><i>Possible values:</i></td><td valign="top">GMT time in format dd:mm:yy hh:mm
+							If parameter is not specified or invalid then send time is considered to current time so fax will be send as soon as possible.
+						</td>
+					</tr>
+					<tr>
+						<td valign="top"><i>Format:</i></td><td valign="top">ASCII string.</td>
+					</tr>
+					<tr>
+						<td valign="top"><i>Number of occurrences:</i></td><td valign="top">no more then one</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td bgcolor="white" valign="top"><font face="Courier">Attachment</font></td>
+			<td bgcolor="white" valign="top">
+				<table>
+					<tr>
+						<td valign="top" width="20%"><i>Description:</i></td><td valign="top" width="80%">Document to be faxed.</td>
+					</tr>
+					<tr>
+						<td valign="top"><i>Possible values:</i></td><td valign="top">Original document file name must be passed in the filename field of the body-part header.</td>
+					</tr>
+					<tr>
+						<td valign="top"><i>Format:</i></td><td valign="top">Binary stream.</td>
+					</tr>
+					<tr>
+						<td valign="top"><i>Number of occurrences:</i></td><td valign="top">any.</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		
+		
+		</table></td>
+	</tr>
+	</table>
+	
+	<p>
+	<h3 style="text-size:medium"><a name="list"></a>2. Response format</h3>
+	
+Response returns request processing status as an integer value. Possible value can be on of the following:
+<blockquote>
+	<li>0 - Successful</li>
+	<li>1 - Authorization failed</li>
+	<li>2 - Faxing is prohibited for the account</li>
+	<li>3 - No recipients specified</li>
+	<li>4 - No fax data specified</li>
+	<li>5 - Generic error</li>
+</blockquote>
+ 
+ 
+	<br><br>
+	<b>Request body example</b><br><br>
+ 
+Content-Type: multipart/form-data; boundary=---------------------------7d54b1fee05aa<br>
+<br>
+-----------------------------7d54b1fee05aa<br>
+Content-Disposition: form-data; <b>name="Username"</b><br>
+<br>
+15556090455<br>
+-----------------------------7d54b1fee05aa<br>
+Content-Disposition: form-data; <b>name="Password"</b><br>
+<br>
+qwerty<br>
+-----------------------------7d54b1fee05aa<br>
+Content-Disposition: form-data; <b>name="Attachment"; filename="C:\example.doc"</b>
+<br>
+&lt;Document content is here&gt;<br>
+-----------------------------7d54b1fee05aa<br>
+Content-Disposition: form-data; <b>name="Recipient"</b><br>
+<br>
+5556465589|John Doe<br>
+-----------------------------7d54b1fee05aa<br>
+Content-Disposition: form-data; <b>name="Recipient"</b><br>
+<br>
+5555568552|John Smith<br>
+-----------------------------7d54b1fee05aa<br>
+Content-Disposition: form-data; <b>name="Coverpagetext"</b><br>
+<br>
+This is a test fax from web<br>
+-----------------------------7d54b1fee05aa--<br>
+	
+	<br><br>
+	<b>Response</b><br>
+	0
+	</p>
+	
+ 
+	</td>
+</tr>
+<tr>
+	<td align="center">
+	<hr size=1 style="margin-top:10px;margin-bottom:10px">
+	<p style="margin-top:10px;margin-bottom:20px"><font face="Arial" size=1>
+	<a href="http://www.ringcentral.com/tou.html" target="_blank">Terms of Use</a> 
+	| <a href="http://www.ringcentral.com/tou.html#19" target="_blank">Privacy Policy</a>
+	<br>
+	Copyright &copy; 1999-2008 RingCentral, Inc. All rights reserved.
+	</font></p>
+	</td>
+</tr>
+</table>
+</body>
+</html>
