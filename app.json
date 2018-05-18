@@ -11,10 +11,15 @@
     "addons": [
         "papertrail:choklad"
     ],
+    "formation": {
+        "web": {
+            "quantity": 1,
+            "size": "Free"
+        }
+    },
     "env": {
         "RINGCENTRAL_CLIENT_ID": {
             "description": "RingCentral app ClientId",
-            "value": "https://platform.ringcentral.com",
             "required": true
         },
         "RINGCENTRAL_CLIENT_SECRET": {
@@ -24,7 +29,7 @@
         },
         "RINGCENTRAL_SERVER_URL": {
             "description": "RingCentral API Server URL, e.g. https://platform.ringcentral.com or https://platform.devtest.ringcentral.com",
-            "value": "",
+            "value": "https://platform.devtest.ringcentral.com",
             "required": true
         }
     }
