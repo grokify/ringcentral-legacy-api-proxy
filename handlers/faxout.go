@@ -120,20 +120,17 @@ func WriteFaxResponse(res http.ResponseWriter, resp *http.Response, err error, f
 		message = "Generic error"
 	} else if resp.StatusCode == 401 {
 		legacyResponseCode = AuthorizationFailed
-		httpStatusCode = http.StatusUnauthorized
+		httpStatusCode = resp.StatusCode
 		message = "Authorization failed"
 	} else if resp.StatusCode >= 300 {
 		legacyResponseCode = GenericError
-		httpStatusCode = http.StatusInternalServerError
+		httpStatusCode = resp.StatusCode
 		message = "Generic error"
-	} else {
-		legacyResponseCode = Successful
-		httpStatusCode = http.StatusOK
-		message = "Successful"
 	}
 	if format == "json" {
 		res.Header().Set(hum.HeaderContentType, hum.ContentTypeAppJsonUtf8)
 		if httpStatusCode != http.StatusOK {
+			res.WriteHeader(httpStatusCode)
 			resInfo := hum.ResponseInfo{
 				StatusCode: httpStatusCode,
 				Message:    message}
@@ -141,8 +138,10 @@ func WriteFaxResponse(res http.ResponseWriter, resp *http.Response, err error, f
 		} else {
 			bytes, err := hum.ResponseBody(resp)
 			if err == nil {
+				res.WriteHeader(httpStatusCode)
 				res.Write(bytes)
 			} else {
+				res.WriteHeader(http.StatusInternalServerError)
 				resInfo := hum.ResponseInfo{
 					StatusCode: http.StatusInternalServerError,
 					Message:    err.Error()}
@@ -151,6 +150,7 @@ func WriteFaxResponse(res http.ResponseWriter, resp *http.Response, err error, f
 		}
 	} else {
 		res.Header().Set(hum.HeaderContentType, hum.ContentTypeTextPlainUsAscii)
+		res.WriteHeader(http.StatusOK)
 		res.Write([]byte(strconv.Itoa(int(legacyResponseCode))))
 	}
 }

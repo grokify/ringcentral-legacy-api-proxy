@@ -120,6 +120,12 @@ $ curl -XPOST 'http://localhost:8080/faxout.asp' \
 
 ## Notes
 
+### Troubleshooting
+
+The REST API has throttling built in so you should check for 429 throttling errors.
+
+### Maintenance
+
 Rebuild `vendor` directory with:
 
 ```
