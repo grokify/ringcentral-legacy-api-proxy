@@ -1,5 +1,7 @@
 CHANGELOG
 ---------
+- 2018-05-19
+  - Add FaxOut RPC API
 - 2018-05-17
   - Support RingOut `call` and `list` RPC APIs
   - Update to use [`go-ringcentral`](https://github.com/grokify/go-ringcentral) SDK
