@@ -26,7 +26,7 @@ This is a proxy service that allows apps using RingCentral's legacy RPC APIs to 
 * https://service.ringcentral.com/ringoutapi/ ([docs](https://grokify.github.io/ringcentral-legacy-api-proxy/ringoutapi.html))
 * https://service.ringcentral.com/faxoutapi/ ([docs](https://grokify.github.io/ringcentral-legacy-api-proxy/faxoutapi.html))
 
-The following calls with checks are currently supported:
+The following is a list of legacy API calls. The ones with checks are currently supported:
 
 * [x] [RingOut `call` command](https://grokify.github.io/ringcentral-legacy-api-proxy/ringoutapi.html#call)
 * [x] [RingOut `list` command](https://grokify.github.io/ringcentral-legacy-api-proxy/ringoutapi.html#list)
