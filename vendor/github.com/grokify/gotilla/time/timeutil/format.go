@@ -24,7 +24,37 @@ const (
 	ISO8601ZCompact    = "20060102T150405Z"
 	ISO8601NoTzMilli   = "2006-01-02T15:04:05.000"
 	DateMDYSlash       = "01/02/2006"
+	DMYHM2             = "02:01:06 15:04" // GMT time in format dd:mm:yy hh:mm
 )
+
+// Reformat a time string from one format to another
+func FromTo(value, fromLayout, toLayout string) (string, error) {
+	t, err := time.Parse(fromLayout, strings.TrimSpace(value))
+	if err != nil {
+		return "", err
+	}
+	return t.Format(toLayout), nil
+}
+
+// ParseFirst attempts to parse a string with a set of layouts.
+func ParseFirst(layouts []string, value string) (time.Time, error) {
+	value = strings.TrimSpace(value)
+	if len(value) == 0 || len(layouts) == 0 {
+		return time.Now(), fmt.Errorf(
+			"Requires value [%v] and at least one layout [%v]", value, strings.Join(layouts, ","))
+	}
+	for _, layout := range layouts {
+		layout = strings.TrimSpace(layout)
+		if len(layout) == 0 {
+			continue
+		}
+		if dt, err := time.Parse(layout, value); err == nil {
+			return dt, nil
+		}
+	}
+	return time.Now(), fmt.Errorf("Cannot parse time [%v] with layouts [%v]",
+		value, strings.Join(layouts, ","))
+}
 
 var FormatMap = map[string]string{
 	"RFC3339":    time.RFC3339,
@@ -80,19 +110,19 @@ func (t ISO8601NoTzMilliTime) MarshalJSON() ([]byte, error) {
 	return timeMarshalJSON(t.Time, ISO8601NoTzMilli)
 }
 
-func timeUnmarshalJSON(buf []byte, format string) (time.Time, bool, error) {
+func timeUnmarshalJSON(buf []byte, layout string) (time.Time, bool, error) {
 	str := string(buf)
 	isNil := true
 	if str == "null" || str == "\"\"" {
 		return time.Time{}, isNil, nil
 	}
-	tt, err := time.Parse(format, strings.Trim(str, `"`))
+	tt, err := time.Parse(layout, strings.Trim(str, `"`))
 	if err != nil {
 		return time.Time{}, false, err
 	}
 	return tt, false, nil
 }
 
-func timeMarshalJSON(t time.Time, format string) ([]byte, error) {
-	return []byte(`"` + t.Format(format) + `"`), nil
+func timeMarshalJSON(t time.Time, layout string) ([]byte, error) {
+	return []byte(`"` + t.Format(layout) + `"`), nil
 }
