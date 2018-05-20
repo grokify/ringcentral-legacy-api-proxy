@@ -22,13 +22,13 @@
 		},
 		{
 			"ImportPath": "github.com/grokify/go-ringcentral/client",
-			"Comment": "v2.3.0-93-g639fe1b",
-			"Rev": "639fe1bf53845d294fbb9644a6f044cdcc4ce9fe"
+			"Comment": "v2.3.0-95-g13d537c",
+			"Rev": "13d537cdf7d1d6d9bafa4031517f2a2edcf6b382"
 		},
 		{
 			"ImportPath": "github.com/grokify/go-ringcentral/clientutil",
-			"Comment": "v2.3.0-93-g639fe1b",
-			"Rev": "639fe1bf53845d294fbb9644a6f044cdcc4ce9fe"
+			"Comment": "v2.3.0-95-g13d537c",
+			"Rev": "13d537cdf7d1d6d9bafa4031517f2a2edcf6b382"
 		},
 		{
 			"ImportPath": "github.com/grokify/go-scim-client",
