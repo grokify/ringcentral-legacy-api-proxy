@@ -32,7 +32,7 @@ The following calls with checks are currently supported:
 * [x] [RingOut `list` command](https://grokify.github.io/ringcentral-legacy-api-proxy/ringoutapi.html#list)
 * [ ] [RingOut `status` command](https://grokify.github.io/ringcentral-legacy-api-proxy/ringoutapi.html#status)
 * [ ] [RingOut `cancel` command](https://grokify.github.io/ringcentral-legacy-api-proxy/ringoutapi.html#cancel)
-* [ ] [FaxOut](https://grokify.github.io/ringcentral-legacy-api-proxy/faxoutapi.html)
+* [x] [FaxOut](https://grokify.github.io/ringcentral-legacy-api-proxy/faxoutapi.html)
 
 Note: a new query string parameter is provided, `format=json`, which instructs the service to return the REST API JSON response. If this is not provided, the response is converted to a legacy API response.
 
@@ -93,6 +93,29 @@ $ RINGCENTRAL_SERVER_URL=https://platform.devtest.ringcentral.com \
   RINGCENTRAL_CLIENT_ID=<myClientId> \
   RINGCENTRAL_CLIENT_SECRET=<myClientSecret> \
   main
+```
+
+## Example API Calls
+
+### RingOut `call`
+
+`$ curl -XGET 'http://localhost:8080/ringout.asp?Username=<myUsername>&Password=<myPassword>&Cmd=call&to=<toNumber>&from=<fromNumver>&Format=json'`
+
+### RingOut `list`
+
+`$ curl -XGET 'http://localhost:8080/ringout.asp?Username=<myUsername>&Password=<myPassword>&Cmd=list&Format=json'`
+
+### FaxOut
+
+```
+$ curl -XPOST 'http://localhost:8080/faxout.asp' \
+  -F 'Username=<myUsername>' \
+  -F 'Password=<myPassword>' \
+  -F 'Recipient=<recipient>' \
+  -F 'Coverpagetext=<coverPageText>' \
+  -F 'Resolution=High' \
+  -F 'Attachment=@test_file.pdf' \
+  -F 'Format=json'
 ```
 
 ## Notes
