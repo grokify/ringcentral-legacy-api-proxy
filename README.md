@@ -42,7 +42,7 @@ Create a RingCentral app at the developer portal: [https://developer.ringcentral
 
 Create an app with the following setting.
 
-`App Type`: `Server (No-UI)`
+`App Type`: `Server-only (No UI)`
 
 Ensure that `Password grant` is set.
 
