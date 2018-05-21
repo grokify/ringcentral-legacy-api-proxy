@@ -46,7 +46,7 @@ Create an app with the following setting.
 
 Ensure that `Password grant` is set.
 
-![](docs/images/legacy_create-app_app-platform-type.png)
+![](docs/images/legacy_create-app_app-platform-type.png "")
 
 Select the permissions you need. There are a total of three permissions for all legacy APIs, but you should just select the ones you need as you will need to exercise all the permissions to graduate your app.
 
@@ -56,7 +56,7 @@ Select the permissions you need. There are a total of three permissions for all 
 | `ReadAccounts` | RingOut `list` |
 | `Faxes` | FaxOut |
 
-![](docs/images/legacy_create-app_permissions.png)
+![](docs/images/legacy_create-app_permissions.png "")
 
 ## Configuration
 
