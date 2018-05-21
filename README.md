@@ -36,6 +36,28 @@ The following is a list of legacy API calls. The ones with checks are currently 
 
 Note: a new query string parameter is provided, `format=json`, which instructs the service to return the REST API JSON response. If this is not provided, the response is converted to a legacy API response.
 
+## TL;DR
+
+Install this app with the following quick steps:
+
+1. Login to Developer Portal: [https://developer.ringcentral.com](https://developer.ringcentral.com)
+1. Create an app with "Platform Type" `Server-only (No UI)`.
+1. Select permissions required: `RingOut` for RingOut `call`; `ReadAccounts` for RingOut `list` and `Faxes` for FaxOut
+1. Save sandbox `Client ID`, `Client Secret`
+1. Click `Deploy to Heroku` below. Use Sandbox Client ID and Client Secret with the server URL: https://platform.devtest.ringcentral.com .
+1. Run API calls until you can gradate your app.
+1. Click to graduate your app
+1. Update your Heroku environment variables or create a 2nd Heroku app
+1. Run in production
+
+## Caveats
+
+1. The RingCentral REST API is subject to Rate Limits:
+
+https://developer.ringcentral.com/api-docs/latest/index.html#!#APIRateLimits.html
+
+Contact us if your app is running into these limits.
+
 ## Prerequisites
 
 Create a RingCentral app at the developer portal: [https://developer.ringcentral.com](https://developer.ringcentral.com). Access is included with many RingCentral accoutns so just click 'Sign in' to continue.
