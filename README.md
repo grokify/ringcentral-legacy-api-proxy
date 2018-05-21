@@ -38,16 +38,25 @@ Note: a new query string parameter is provided, `format=json`, which instructs t
 
 ## Prerequisites
 
-The following are required to use this app.
+Create a RingCentral app at the developer portal: [https://developer.ringcentral.com](https://developer.ringcentral.com). Access is included with many RingCentral accoutns so just click 'Sign in' to continue.
 
-1. A RingCentral developer account available at https://developer.ringcentral.com (included with many RingCentral accounts, just 'Sign in')
-2. An application that supports the "Password grant" OAuth 2.0 flow and the `RingOut` and `ReadAccounts` (RingOut list), and `Faxes` permissions. Only add the permissions you need:
+Create an app with the following setting.
+
+`App Type`: `Server (No-UI)`
+
+Ensure that `Password grant` is set.
+
+![](legacy_create-app_app-platform-type.png)
+
+Select the permissions you need. There are a total of three permissions for all legacy APIs, but you should just select the ones you need as you will need to exercise all the permissions to graduate your app.
 
 | Permission | Required for |
 |------------|--------------|
 | `RingOut` | RingOut `call`, `status`, `cancel` |
 | `ReadAccounts` | RingOut `list` |
 | `Faxes` | FaxOut |
+
+![](legacy_create-app_permissions.png)
 
 ## Configuration
 
