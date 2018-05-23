@@ -129,6 +129,7 @@ func (h *Handler) handleAnyRequestRingOut(aRes anyhttp.Response, aReq anyhttp.Re
 }
 
 func serveFastHttp(handler Handler) {
+	log.Info("STARTING_FAST_HTTP")
 	router := fasthttprouter.New()
 	router.POST("/faxout.asp", handler.FaxOutFastHttp)
 	router.POST("/faxout.asp/", handler.FaxOutFastHttp)
@@ -138,7 +139,7 @@ func serveFastHttp(handler Handler) {
 	router.GET("/ringout.asp/", handler.RingOutFastHttp)
 
 	done := make(chan bool)
-	go fasthttp.ListenAndServe(":8080", router.Handler)
+	go fasthttp.ListenAndServe(fmt.Sprintf(":%v", handler.AppPort), router.Handler)
 	log.Printf("Server listening on port %v", handler.AppPort)
 	<-done
 }
@@ -177,11 +178,15 @@ func main() {
 			ClientID:     os.Getenv("RINGCENTRAL_CLIENT_ID"),
 			ClientSecret: os.Getenv("RINGCENTRAL_CLIENT_SECRET")}}
 
-	engine := "nethttp"
+	engine := strings.ToLower(strings.TrimSpace(os.Getenv("HTTP_ENGINE")))
+	if len(engine) == 0 {
+		engine = "nethttp"
+	}
+
 	switch engine {
 	case "fasthttp":
 		serveFastHttp(handler)
-	case "nethttp":
+	default:
 		serveNetHttp(handler)
 	}
 }

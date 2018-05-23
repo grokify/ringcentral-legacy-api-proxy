@@ -30,6 +30,11 @@
             "description": "RingCentral API Server URL, e.g. https://platform.ringcentral.com or https://platform.devtest.ringcentral.com",
             "value": "https://platform.devtest.ringcentral.com",
             "required": true
+        },
+        "HTTP_ENGINE": {
+            "description": "HTTP server engine to use, e.g. 'fasthttp' or 'nethttp'.",
+            "value": "fasthttp",
+            "required": false
         }
     }
 }
