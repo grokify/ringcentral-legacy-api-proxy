@@ -166,3 +166,7 @@ $ godep save ./...
 More information on deploying Go on Heroku here:
 
 * https://devcenter.heroku.com/articles/go-support
+
+### Heroku
+
+Set up your own Go app on Heroku easily using [`goheroku`](https://github.com/grokify/goheroku).
