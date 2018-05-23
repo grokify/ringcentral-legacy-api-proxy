@@ -1,10 +1,13 @@
 CHANGELOG
 ---------
+- 2018-05-23
+  - Add [`valyala/fasthttp`](https://github.com/valyala/fasthttp) support
 - 2018-05-19
   - Add FaxOut RPC API
 - 2018-05-17
   - Support RingOut `call` and `list` RPC APIs
   - Update to use [`go-ringcentral`](https://github.com/grokify/go-ringcentral) SDK
+  - Add `net/http` support
   - Add Heroku support
   - Add original Legacy API docs
 - 2017-03-25
