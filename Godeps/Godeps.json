@@ -7,6 +7,11 @@
 	],
 	"Deps": [
 		{
+			"ImportPath": "github.com/buaazp/fasthttprouter",
+			"Comment": "v0.1.1-2-g29a27c7",
+			"Rev": "29a27c70315770a2344e11847de85648512717e7"
+		},
+		{
 			"ImportPath": "github.com/caarlos0/env",
 			"Comment": "v3.3.0",
 			"Rev": "1cddc31c48c56ecd700d873edb9fd5b6f5df922a"
@@ -36,55 +41,87 @@
 		},
 		{
 			"ImportPath": "github.com/grokify/gotilla/config",
-			"Rev": "11e4e9c4b543e737cf0b0de42bc9a643471c4551"
+			"Rev": "a243ad65c3ea109a714067afcf92e51a9f6907d6"
+		},
+		{
+			"ImportPath": "github.com/grokify/gotilla/crypto/hash/argon2",
+			"Rev": "a243ad65c3ea109a714067afcf92e51a9f6907d6"
 		},
 		{
 			"ImportPath": "github.com/grokify/gotilla/io/ioutilmore",
-			"Rev": "11e4e9c4b543e737cf0b0de42bc9a643471c4551"
+			"Rev": "a243ad65c3ea109a714067afcf92e51a9f6907d6"
 		},
 		{
 			"ImportPath": "github.com/grokify/gotilla/mime/multipartutil",
-			"Rev": "11e4e9c4b543e737cf0b0de42bc9a643471c4551"
+			"Rev": "a243ad65c3ea109a714067afcf92e51a9f6907d6"
+		},
+		{
+			"ImportPath": "github.com/grokify/gotilla/net/anyhttp",
+			"Rev": "a243ad65c3ea109a714067afcf92e51a9f6907d6"
 		},
 		{
 			"ImportPath": "github.com/grokify/gotilla/net/httputilmore",
-			"Rev": "11e4e9c4b543e737cf0b0de42bc9a643471c4551"
+			"Rev": "a243ad65c3ea109a714067afcf92e51a9f6907d6"
 		},
 		{
 			"ImportPath": "github.com/grokify/gotilla/net/urlutil",
-			"Rev": "11e4e9c4b543e737cf0b0de42bc9a643471c4551"
+			"Rev": "a243ad65c3ea109a714067afcf92e51a9f6907d6"
 		},
 		{
 			"ImportPath": "github.com/grokify/gotilla/os/osutil",
-			"Rev": "11e4e9c4b543e737cf0b0de42bc9a643471c4551"
+			"Rev": "a243ad65c3ea109a714067afcf92e51a9f6907d6"
 		},
 		{
 			"ImportPath": "github.com/grokify/gotilla/strconv/strconvutil",
-			"Rev": "11e4e9c4b543e737cf0b0de42bc9a643471c4551"
+			"Rev": "a243ad65c3ea109a714067afcf92e51a9f6907d6"
 		},
 		{
 			"ImportPath": "github.com/grokify/gotilla/time/timeutil",
-			"Rev": "11e4e9c4b543e737cf0b0de42bc9a643471c4551"
+			"Rev": "a243ad65c3ea109a714067afcf92e51a9f6907d6"
 		},
 		{
 			"ImportPath": "github.com/grokify/oauth2more",
-			"Comment": "v0.2.0-47-gfe3fa14",
-			"Rev": "fe3fa14c4139621515de37900db4a482dbe519c5"
+			"Comment": "v0.2.0-48-g1808337",
+			"Rev": "180833719d0c3a9102ef70757c5c0e1c2d0c6a04"
 		},
 		{
 			"ImportPath": "github.com/grokify/oauth2more/ringcentral",
-			"Comment": "v0.2.0-47-gfe3fa14",
-			"Rev": "fe3fa14c4139621515de37900db4a482dbe519c5"
+			"Comment": "v0.2.0-48-g1808337",
+			"Rev": "180833719d0c3a9102ef70757c5c0e1c2d0c6a04"
 		},
 		{
 			"ImportPath": "github.com/grokify/oauth2more/scim",
-			"Comment": "v0.2.0-47-gfe3fa14",
-			"Rev": "fe3fa14c4139621515de37900db4a482dbe519c5"
+			"Comment": "v0.2.0-48-g1808337",
+			"Rev": "180833719d0c3a9102ef70757c5c0e1c2d0c6a04"
 		},
 		{
 			"ImportPath": "github.com/joho/godotenv",
 			"Comment": "v1.2.0-12-g1709ab1",
 			"Rev": "1709ab122c988931ad53508747b3c061400c2984"
+		},
+		{
+			"ImportPath": "github.com/klauspost/compress/flate",
+			"Comment": "v1.2.1-12-gb88785b",
+			"Rev": "b88785bfd699aa994985ea91b90ee8a1721c3fe1"
+		},
+		{
+			"ImportPath": "github.com/klauspost/compress/gzip",
+			"Comment": "v1.2.1-12-gb88785b",
+			"Rev": "b88785bfd699aa994985ea91b90ee8a1721c3fe1"
+		},
+		{
+			"ImportPath": "github.com/klauspost/compress/zlib",
+			"Comment": "v1.2.1-12-gb88785b",
+			"Rev": "b88785bfd699aa994985ea91b90ee8a1721c3fe1"
+		},
+		{
+			"ImportPath": "github.com/klauspost/cpuid",
+			"Comment": "v1.1-2-gae832f2",
+			"Rev": "ae832f27941af41db13bd6d8efd2493e3b22415a"
+		},
+		{
+			"ImportPath": "github.com/martinlindhe/base36",
+			"Rev": "44e007f2c95e7c7396eb67802b9bd1ac9123785f"
 		},
 		{
 			"ImportPath": "github.com/pkg/errors",
@@ -95,6 +132,33 @@
 			"ImportPath": "github.com/sirupsen/logrus",
 			"Comment": "v1.0.5-24-g0dad3b6",
 			"Rev": "0dad3b6953e73d351ec8ebfd8a8c6b088d320381"
+		},
+		{
+			"ImportPath": "github.com/valyala/bytebufferpool",
+			"Rev": "e746df99fe4a3986f4d4f79e13c1e0117ce9c2f7"
+		},
+		{
+			"ImportPath": "github.com/valyala/fasthttp",
+			"Comment": "v20160617-123-ge5f51c1",
+			"Rev": "e5f51c11919d4f66400334047b897ef0a94c6f3c"
+		},
+		{
+			"ImportPath": "github.com/valyala/fasthttp/fasthttputil",
+			"Comment": "v20160617-123-ge5f51c1",
+			"Rev": "e5f51c11919d4f66400334047b897ef0a94c6f3c"
+		},
+		{
+			"ImportPath": "github.com/valyala/fasthttp/stackless",
+			"Comment": "v20160617-123-ge5f51c1",
+			"Rev": "e5f51c11919d4f66400334047b897ef0a94c6f3c"
+		},
+		{
+			"ImportPath": "golang.org/x/crypto/argon2",
+			"Rev": "1a580b3eff7814fc9b40602fd35256c63b50f491"
+		},
+		{
+			"ImportPath": "golang.org/x/crypto/blake2b",
+			"Rev": "1a580b3eff7814fc9b40602fd35256c63b50f491"
 		},
 		{
 			"ImportPath": "golang.org/x/crypto/ssh/terminal",
@@ -119,6 +183,10 @@
 		{
 			"ImportPath": "golang.org/x/oauth2/internal",
 			"Rev": "cdc340f7c179dbbfa4afd43b7614e8fcadde4269"
+		},
+		{
+			"ImportPath": "golang.org/x/sys/cpu",
+			"Rev": "7c87d13f8e835d2fb3a70a2912c811ed0c1d241b"
 		},
 		{
 			"ImportPath": "golang.org/x/sys/unix",

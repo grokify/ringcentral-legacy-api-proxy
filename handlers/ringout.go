@@ -12,6 +12,8 @@ import (
 
 	rc "github.com/grokify/go-ringcentral/client"
 	ru "github.com/grokify/go-ringcentral/clientutil"
+
+	"github.com/grokify/gotilla/net/anyhttp"
 )
 
 // RingOutRequestParams represents the full list of request
@@ -28,6 +30,21 @@ type RingOutRequestParams struct {
 	Prompt    string `schema:"prompt"`
 	SessionID string `schema:"sessionid"`
 	Format    string `schema:"format"`
+}
+
+func NewRingOutRequestParamsFromAnyArgs(args anyhttp.Args) RingOutRequestParams {
+	return RingOutRequestParams{
+		Cmd:       args.GetString("cmd"),
+		Username:  args.GetString("username"),
+		Ext:       args.GetString("ext"),
+		Password:  args.GetString("password"),
+		To:        args.GetString("to"),
+		From:      args.GetString("from"),
+		Clid:      args.GetString("clid"),
+		Prompt:    args.GetString("prompt"),
+		SessionID: args.GetString("sessionid"),
+		Format:    args.GetString("format"),
+	}
 }
 
 // HasValidCommand returns true if `cmd` is set to a supported value.
@@ -47,43 +64,24 @@ func (params *RingOutRequestParams) PlayPrompt() bool {
 	return false
 }
 
-func RingoutList(res http.ResponseWriter, apiClient *rc.APIClient, responseFormat string) {
-	fmt.Println("LIST")
+func RingoutListAnyResponse(aRes anyhttp.Response, apiClient *rc.APIClient, responseFormat string) {
 	info, resp, err := apiClient.CallHandlingSettingsApi.ListExtensionForwardingNumbers(
 		context.Background(), "~", "~", map[string]interface{}{})
 	if err != nil {
-		res.WriteHeader(http.StatusBadRequest)
-		eresp := hum.ResponseInfo{StatusCode: 500, Message: err.Error()}
-		res.Write(eresp.ToJson())
-		return
-	} else if resp.StatusCode >= 500 {
-		res.WriteHeader(http.StatusInternalServerError)
-		eresp := hum.ResponseInfo{StatusCode: resp.StatusCode, Message: fmt.Sprintf("REST API Response: %v", resp.StatusCode)}
-		res.Write(eresp.ToJson())
-		return
-	} else if resp.StatusCode >= 400 {
-		res.WriteHeader(http.StatusBadRequest)
-		eresp := hum.ResponseInfo{StatusCode: resp.StatusCode, Message: fmt.Sprintf("REST API Response: %v", resp.StatusCode)}
-		res.Write(eresp.ToJson())
-		return
-	} else if resp.StatusCode >= 300 {
-		res.WriteHeader(http.StatusInternalServerError)
-		eresp := hum.ResponseInfo{StatusCode: resp.StatusCode, Message: fmt.Sprintf("REST API Response: %v", resp.StatusCode)}
-		res.Write(eresp.ToJson())
-		return
-	}
-	bytes, err := json.Marshal(info)
-	if err != nil {
-		res.WriteHeader(http.StatusInternalServerError)
-		return
-	}
-
-	if responseFormat == "json" {
-		res.Header().Set(hum.HeaderContentType, hum.ContentTypeAppJsonUtf8)
-		res.Write(bytes)
+		anyhttp.WriteSimpleJson(aRes, http.StatusInternalServerError, err.Error())
 	} else {
-		res.Header().Set(hum.HeaderContentType, hum.ContentTypeTextPlainUsAscii)
-		res.Write([]byte(ringoutListLegacyResponseBody(info.Records)))
+		aRes.SetStatusCode(resp.StatusCode)
+		if responseFormat == "json" {
+			bytes, err := json.Marshal(info)
+			if err != nil {
+				anyhttp.WriteSimpleJson(aRes, http.StatusInternalServerError, err.Error())
+			}
+			aRes.SetContentType(hum.ContentTypeAppJsonUtf8)
+			aRes.SetBodyBytes(bytes)
+		} else {
+			aRes.SetContentType(hum.ContentTypeTextPlainUsAscii)
+			aRes.SetBodyBytes([]byte(ringoutListLegacyResponseBody(info.Records)))
+		}
 	}
 }
 
@@ -103,33 +101,24 @@ func ringoutListLegacyResponseBody(numberInfos []rc.ForwardingNumberInfo) string
 	return fmt.Sprintf("OK %s", strings.Join(parts, ";"))
 }
 
-func RingoutCall(res http.ResponseWriter, apiClient *rc.APIClient, ringOut ru.RingOutRequest, responseFormat string) {
+func RingoutCallAnyResponse(aRes anyhttp.Response, apiClient *rc.APIClient, ringOut ru.RingOutRequest, responseFormat string) {
 	info, resp, err := apiClient.RingOutApi.MakeRingOutCallNew(
 		context.Background(), "~", "~", *ringOut.Body())
 	if err != nil {
-		res.WriteHeader(http.StatusBadRequest)
-		return
-	} else if resp.StatusCode >= 500 {
-		res.WriteHeader(http.StatusInternalServerError)
-		return
-	} else if resp.StatusCode >= 400 {
-		res.WriteHeader(http.StatusBadRequest)
-		return
-	} else if resp.StatusCode >= 300 {
-		res.WriteHeader(http.StatusInternalServerError)
-		return
-	}
-	bytes, err := json.Marshal(info)
-	if err != nil {
-		res.WriteHeader(http.StatusInternalServerError)
-		return
-	}
-
-	if responseFormat == "json" {
-		res.Header().Set(hum.HeaderContentType, hum.ContentTypeAppJsonUtf8)
-		res.Write(bytes)
+		aRes.SetStatusCode(http.StatusInternalServerError)
+		anyhttp.WriteSimpleJson(aRes, http.StatusInternalServerError, err.Error())
 	} else {
-		res.Header().Set(hum.HeaderContentType, hum.ContentTypeTextPlainUsAscii)
-		res.Write([]byte(fmt.Sprintf("OK %s", info.Id)))
+		aRes.SetStatusCode(resp.StatusCode)
+		if responseFormat == "json" {
+			bytes, err := json.Marshal(info)
+			if err != nil {
+				anyhttp.WriteSimpleJson(aRes, http.StatusInternalServerError, err.Error())
+			}
+			aRes.SetContentType(hum.ContentTypeAppJsonUtf8)
+			aRes.SetBodyBytes(bytes)
+		} else {
+			aRes.SetContentType(hum.ContentTypeTextPlainUsAscii)
+			aRes.SetBodyBytes([]byte(fmt.Sprintf("OK %s", info.Id)))
+		}
 	}
 }

@@ -12,6 +12,8 @@ import (
 	ru "github.com/grokify/go-ringcentral/clientutil"
 	tu "github.com/grokify/gotilla/time/timeutil"
 	ro "github.com/grokify/oauth2more/ringcentral"
+
+	"github.com/grokify/gotilla/net/anyhttp"
 )
 
 const (
@@ -110,48 +112,37 @@ func NewFaxRequestLegacyMultipartForm(form *multipart.Form) ru.FaxRequest {
 	return fax
 }
 
-func WriteFaxResponse(res http.ResponseWriter, resp *http.Response, err error, format string) {
+func WriteFaxAnyResponse(res anyhttp.Response, apiResp *http.Response, err error, format string) {
+	httpStatusCode := -1
 	legacyResponseCode := Successful
-	httpStatusCode := resp.StatusCode
-	message := "Successful"
-	if err != nil || resp.StatusCode >= 500 {
-		legacyResponseCode = GenericError
+	if err != nil {
 		httpStatusCode = http.StatusInternalServerError
-		message = "Generic error"
-	} else if resp.StatusCode == 401 {
-		legacyResponseCode = AuthorizationFailed
-		httpStatusCode = resp.StatusCode
-		message = "Authorization failed"
-	} else if resp.StatusCode >= 300 {
 		legacyResponseCode = GenericError
-		httpStatusCode = resp.StatusCode
-		message = "Generic error"
+	} else {
+		httpStatusCode = apiResp.StatusCode
+		if apiResp.StatusCode >= 500 {
+			legacyResponseCode = GenericError
+		} else if apiResp.StatusCode == 401 {
+			legacyResponseCode = AuthorizationFailed
+		} else if apiResp.StatusCode >= 300 {
+			legacyResponseCode = GenericError
+		}
 	}
-	if format == "json" {
-		res.Header().Set(hum.HeaderContentType, hum.ContentTypeAppJsonUtf8)
-		if httpStatusCode != http.StatusOK {
-			res.WriteHeader(httpStatusCode)
+
+	res.SetStatusCode(httpStatusCode)
+	if strings.TrimSpace(strings.ToLower(format)) == "json" {
+		res.SetContentType(hum.ContentTypeAppJsonUtf8)
+		if err != nil {
 			resInfo := hum.ResponseInfo{
 				StatusCode: httpStatusCode,
-				Message:    message}
-			res.Write(resInfo.ToJson())
+				Message:    err.Error()}
+			res.SetBodyBytes(resInfo.ToJson())
 		} else {
-			bytes, err := hum.ResponseBody(resp)
-			if err == nil {
-				res.WriteHeader(httpStatusCode)
-				res.Write(bytes)
-			} else {
-				res.WriteHeader(http.StatusInternalServerError)
-				resInfo := hum.ResponseInfo{
-					StatusCode: http.StatusInternalServerError,
-					Message:    err.Error()}
-				res.Write(resInfo.ToJson())
-			}
+			res.SetBodyStream(apiResp.Body, -1)
 		}
 	} else {
-		res.Header().Set(hum.HeaderContentType, hum.ContentTypeTextPlainUsAscii)
-		res.WriteHeader(http.StatusOK)
-		res.Write([]byte(strconv.Itoa(int(legacyResponseCode))))
+		res.SetContentType(hum.ContentTypeTextPlainUsAscii)
+		res.SetBodyBytes([]byte(strconv.Itoa(int(legacyResponseCode))))
 	}
 }
 
@@ -165,6 +156,24 @@ const (
 	NoFaxData                                  // 4
 	GenericError                               // 5
 )
+
+var responseCodes = []string{
+	"Successful",
+	"AuthorizationFailed",
+	"FaxingProhibited",
+	"NoFaxRecipients",
+	"NoFaxData",
+	"GenericError",
+}
+
+func GetResponseCodes() []string { return responseCodes }
+
+func (code FaxResponseCode) String() string {
+	if 0 <= int(code) && int(code) <= 5 {
+		return responseCodes[int(code)]
+	}
+	return ""
+}
 
 // FaxResponseCodeToResponseInfo
 /*

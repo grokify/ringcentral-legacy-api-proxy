@@ -2,23 +2,23 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 	"os"
 	"strconv"
 	"strings"
 
-	"github.com/gorilla/schema"
 	cfg "github.com/grokify/gotilla/config"
+	log "github.com/sirupsen/logrus"
 
 	rc "github.com/grokify/go-ringcentral/client"
 	ru "github.com/grokify/go-ringcentral/clientutil"
 	ro "github.com/grokify/oauth2more/ringcentral"
 
+	"github.com/buaazp/fasthttprouter"
+	"github.com/grokify/gotilla/net/anyhttp"
 	"github.com/grokify/ringcentral-legacy-api-proxy/handlers"
+	"github.com/valyala/fasthttp"
 )
-
-var decoder = schema.NewDecoder()
 
 // Handler is a struct to hold the service handlers.
 type Handler struct {
@@ -27,16 +27,40 @@ type Handler struct {
 	AppCredentials *ro.ApplicationCredentials
 }
 
-func (h *Handler) FaxOut(res http.ResponseWriter, req *http.Request) {
-	if req.Method != "POST" {
-		res.WriteHeader(http.StatusBadRequest)
+func (h *Handler) FaxOutNetHttp(res http.ResponseWriter, req *http.Request) {
+	log.Info("START_HANDLE_FAXOUT_NET_HTTP")
+	h.handleAnyRequestFaxOut(anyhttp.NewResReqNetHttp(res, req))
+}
+
+func (h *Handler) FaxOutFastHttp(ctx *fasthttp.RequestCtx) {
+	log.Info("START_HANDLE_FAXOUT_FAST_HTTP")
+	h.handleAnyRequestFaxOut(anyhttp.NewResReqFastHttp(ctx))
+}
+
+func (h *Handler) RingOutNetHttp(res http.ResponseWriter, req *http.Request) {
+	log.Info("START_HANDLE_RINGOUT_NET_HTTP")
+	h.handleAnyRequestRingOut(anyhttp.NewResReqNetHttp(res, req))
+}
+
+func (h *Handler) RingOutFastHttp(ctx *fasthttp.RequestCtx) {
+	log.Info("START_HANDLE_RINGOUT_FAST_HTTP")
+	h.handleAnyRequestRingOut(anyhttp.NewResReqFastHttp(ctx))
+}
+
+func (h *Handler) handleAnyRequestFaxOut(aRes anyhttp.Response, aReq anyhttp.Request) {
+	log.Info("START_HANDLE_FAXOUT_ANY_REQUEST")
+	if strings.ToUpper(string(aReq.Method())) != http.MethodPost {
+		anyhttp.WriteSimpleJson(aRes,
+			http.StatusMethodNotAllowed,
+			fmt.Sprintf("Method [%v] not allowed", string(aReq.Method())))
 		return
 	}
-	err := req.ParseMultipartForm(100000)
+
+	form, err := aReq.MultipartForm()
 	if err != nil {
-		panic(err)
+		anyhttp.WriteSimpleJson(aRes, http.StatusBadRequest, err.Error())
+		return
 	}
-	form := req.MultipartForm
 	formParser := handlers.NewLegacyMultipartFormParser(form)
 
 	pwdCreds := formParser.PasswordCredentials()
@@ -45,35 +69,33 @@ func (h *Handler) FaxOut(res http.ResponseWriter, req *http.Request) {
 	// Authorize
 	apiClient, err := ru.NewApiClientPassword(*h.AppCredentials, pwdCreds)
 	if err != nil {
-		res.WriteHeader(http.StatusUnauthorized)
+		anyhttp.WriteSimpleJson(aRes, http.StatusUnauthorized, err.Error())
 		return
 	}
 
 	restFaxReq := formParser.FaxRequest()
 
-	url := ru.BuildFaxApiUrl(os.Getenv("RINGCENTRAL_SERVER_URL"))
+	resp, err := restFaxReq.Post(
+		apiClient.HTTPClient(),
+		ru.BuildFaxApiUrl(os.Getenv("RINGCENTRAL_SERVER_URL")))
 
-	resp, err := restFaxReq.Post(apiClient.HTTPClient(), url)
-
-	handlers.WriteFaxResponse(res, resp, err, formParser.Format())
+	handlers.WriteFaxAnyResponse(aRes, resp, err, formParser.Format())
 }
 
 // RingOut is a net/http handler for performing a RingOut API
 // call using the RingCentral legacy ringout.asp API definition.
-func (h *Handler) RingOut(res http.ResponseWriter, req *http.Request) {
-	// Parse Request Data
-	err := req.ParseForm()
+func (h *Handler) handleAnyRequestRingOut(aRes anyhttp.Response, aReq anyhttp.Request) {
+	log.Info("HandleAnyRequestRingOut_S1")
+	err := aReq.ParseForm()
+
+	aReq.Method()
 	if err != nil {
-		res.WriteHeader(http.StatusBadRequest)
+		anyhttp.WriteSimpleJson(aRes, http.StatusBadRequest, err.Error())
 		return
 	}
-	var reqParams handlers.RingOutRequestParams
-	err = decoder.Decode(&reqParams, req.Form)
-	if err != nil {
-		res.WriteHeader(http.StatusBadRequest)
-		return
-	} else if !reqParams.HasValidCommand() {
-		res.WriteHeader(http.StatusBadRequest)
+	reqParams := handlers.NewRingOutRequestParamsFromAnyArgs(aReq.AllArgs())
+	if !reqParams.HasValidCommand() {
+		anyhttp.WriteSimpleJson(aRes, http.StatusBadRequest, fmt.Sprintf("Invalid Command cmd[%v]", reqParams.Cmd))
 		return
 	}
 
@@ -86,7 +108,7 @@ func (h *Handler) RingOut(res http.ResponseWriter, req *http.Request) {
 			Password:        reqParams.Password,
 			RefreshTokenTTL: int64(-1)})
 	if err != nil {
-		res.WriteHeader(http.StatusUnauthorized)
+		aRes.SetStatusCode(http.StatusUnauthorized)
 		return
 	}
 
@@ -100,18 +122,34 @@ func (h *Handler) RingOut(res http.ResponseWriter, req *http.Request) {
 			PlayPrompt: reqParams.PlayPrompt()}
 
 		log.Printf("%v\n", ringOut)
-		handlers.RingoutCall(res, apiClient, ringOut, reqParams.Format)
+		handlers.RingoutCallAnyResponse(aRes, apiClient, ringOut, reqParams.Format)
 	case "list":
-		handlers.RingoutList(res, apiClient, reqParams.Format)
+		handlers.RingoutListAnyResponse(aRes, apiClient, reqParams.Format)
 	}
 }
 
+func serveFastHttp(handler Handler) {
+	router := fasthttprouter.New()
+	router.POST("/faxout.asp", handler.FaxOutFastHttp)
+	router.POST("/faxout.asp/", handler.FaxOutFastHttp)
+	router.POST("/ringout.asp", handler.RingOutFastHttp)
+	router.POST("/ringout.asp/", handler.RingOutFastHttp)
+	router.GET("/ringout.asp", handler.RingOutFastHttp)
+	router.GET("/ringout.asp/", handler.RingOutFastHttp)
+
+	done := make(chan bool)
+	go fasthttp.ListenAndServe(":8080", router.Handler)
+	log.Printf("Server listening on port %v", handler.AppPort)
+	<-done
+}
+
 func serveNetHttp(handler Handler) {
+	log.Info("STARTING_NET_HTTP")
 	mux := http.NewServeMux()
-	mux.HandleFunc("/ringout.asp", http.HandlerFunc(handler.RingOut))
-	mux.HandleFunc("/ringout.asp/", http.HandlerFunc(handler.RingOut))
-	mux.HandleFunc("/faxout.asp", http.HandlerFunc(handler.FaxOut))
-	mux.HandleFunc("/faxout.asp/", http.HandlerFunc(handler.FaxOut))
+	mux.HandleFunc("/ringout.asp", http.HandlerFunc(handler.RingOutNetHttp))
+	mux.HandleFunc("/ringout.asp/", http.HandlerFunc(handler.RingOutNetHttp))
+	mux.HandleFunc("/faxout.asp", http.HandlerFunc(handler.FaxOutNetHttp))
+	mux.HandleFunc("/faxout.asp/", http.HandlerFunc(handler.FaxOutNetHttp))
 
 	done := make(chan bool)
 	go http.ListenAndServe(fmt.Sprintf(":%v", handler.AppPort), mux)
@@ -139,5 +177,11 @@ func main() {
 			ClientID:     os.Getenv("RINGCENTRAL_CLIENT_ID"),
 			ClientSecret: os.Getenv("RINGCENTRAL_CLIENT_SECRET")}}
 
-	serveNetHttp(handler)
+	engine := "nethttp"
+	switch engine {
+	case "fasthttp":
+		serveFastHttp(handler)
+	case "nethttp":
+		serveNetHttp(handler)
+	}
 }
