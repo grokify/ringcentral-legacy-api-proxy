@@ -14,6 +14,7 @@ import (
 	ru "github.com/grokify/go-ringcentral/clientutil"
 	ro "github.com/grokify/oauth2more/ringcentral"
 
+	"github.com/apex/gateway"
 	"github.com/buaazp/fasthttprouter"
 	"github.com/grokify/gotilla/net/anyhttp"
 	"github.com/grokify/ringcentral-legacy-api-proxy/handlers"
@@ -85,7 +86,6 @@ func (h *Handler) handleAnyRequestFaxOut(aRes anyhttp.Response, aReq anyhttp.Req
 // RingOut is a net/http handler for performing a RingOut API
 // call using the RingCentral legacy ringout.asp API definition.
 func (h *Handler) handleAnyRequestRingOut(aRes anyhttp.Response, aReq anyhttp.Request) {
-	log.Info("HandleAnyRequestRingOut_S1")
 	err := aReq.ParseForm()
 
 	aReq.Method()
@@ -128,6 +128,28 @@ func (h *Handler) handleAnyRequestRingOut(aRes anyhttp.Response, aReq anyhttp.Re
 	}
 }
 
+func serveAwsLambda(handler Handler) {
+	log.Info("STARTING_AWS_LAMBDA")
+	log.Fatal(gateway.ListenAndServe(fmt.Sprintf(":%v", handler.AppPort), getHttpServeMux(handler)))
+}
+
+func serveNetHttp(handler Handler) {
+	log.Info("STARTING_NET_HTTP")
+	done := make(chan bool)
+	go http.ListenAndServe(fmt.Sprintf(":%v", handler.AppPort), getHttpServeMux(handler))
+	log.Printf("Server listening on port %v", handler.AppPort)
+	<-done
+}
+
+func getHttpServeMux(handler Handler) *http.ServeMux {
+	mux := http.NewServeMux()
+	mux.HandleFunc("/ringout.asp", http.HandlerFunc(handler.RingOutNetHttp))
+	mux.HandleFunc("/ringout.asp/", http.HandlerFunc(handler.RingOutNetHttp))
+	mux.HandleFunc("/faxout.asp", http.HandlerFunc(handler.FaxOutNetHttp))
+	mux.HandleFunc("/faxout.asp/", http.HandlerFunc(handler.FaxOutNetHttp))
+	return mux
+}
+
 func serveFastHttp(handler Handler) {
 	log.Info("STARTING_FAST_HTTP")
 	router := fasthttprouter.New()
@@ -144,20 +166,6 @@ func serveFastHttp(handler Handler) {
 	<-done
 }
 
-func serveNetHttp(handler Handler) {
-	log.Info("STARTING_NET_HTTP")
-	mux := http.NewServeMux()
-	mux.HandleFunc("/ringout.asp", http.HandlerFunc(handler.RingOutNetHttp))
-	mux.HandleFunc("/ringout.asp/", http.HandlerFunc(handler.RingOutNetHttp))
-	mux.HandleFunc("/faxout.asp", http.HandlerFunc(handler.FaxOutNetHttp))
-	mux.HandleFunc("/faxout.asp/", http.HandlerFunc(handler.FaxOutNetHttp))
-
-	done := make(chan bool)
-	go http.ListenAndServe(fmt.Sprintf(":%v", handler.AppPort), mux)
-	log.Printf("Server listening on port %v", handler.AppPort)
-	<-done
-}
-
 func main() {
 	err := cfg.LoadDotEnvSkipEmpty(os.Getenv("ENV_PATH"), "./.env")
 	if err != nil {
@@ -168,8 +176,9 @@ func main() {
 	portRaw := os.Getenv("PORT")
 	port, err := strconv.Atoi(portRaw)
 	if err != nil {
-		port = 8080
+		port = 3000
 	}
+	port = 3000
 
 	handler := Handler{
 		AppPort: port,
@@ -184,6 +193,8 @@ func main() {
 	}
 
 	switch engine {
+	case "awslambda":
+		serveAwsLambda(handler)
 	case "fasthttp":
 		serveFastHttp(handler)
 	default:

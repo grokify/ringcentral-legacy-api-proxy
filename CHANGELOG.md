@@ -1,5 +1,7 @@
 CHANGELOG
 ---------
+- 2018-05-25
+  - Add [`aws/aws-lambda-go`](https://github.com/aws/aws-lambda-go) support
 - 2018-05-23
   - Add [`valyala/fasthttp`](https://github.com/valyala/fasthttp) support
 - 2018-05-19
@@ -7,7 +9,7 @@ CHANGELOG
 - 2018-05-17
   - Support RingOut `call` and `list` RPC APIs
   - Update to use [`go-ringcentral`](https://github.com/grokify/go-ringcentral) SDK
-  - Add `net/http` support
+  - Add [`net/http`](https://golang.org/pkg/net/http/) support
   - Add Heroku support
   - Add original Legacy API docs
 - 2017-03-25

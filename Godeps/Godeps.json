@@ -42,11 +42,6 @@
 			"Rev": "1cddc31c48c56ecd700d873edb9fd5b6f5df922a"
 		},
 		{
-			"ImportPath": "github.com/go-chi/chi",
-			"Comment": "v3.3.2-5-gcca4135",
-			"Rev": "cca4135d8dddff765463feaf1118047a9e506b4a"
-		},
-		{
 			"ImportPath": "github.com/google/go-querystring/query",
 			"Rev": "53e6ce116135b80d037921a7fdd5138cf32d7a8a"
 		},
@@ -66,43 +61,43 @@
 		},
 		{
 			"ImportPath": "github.com/grokify/gotilla/config",
-			"Rev": "458cae789052eeb1685eb3a8d8adb1c8460e20ad"
+			"Rev": "98eedef602b3a1b76033d11b2ab9e2fa0292c4be"
 		},
 		{
 			"ImportPath": "github.com/grokify/gotilla/crypto/hash/argon2",
-			"Rev": "458cae789052eeb1685eb3a8d8adb1c8460e20ad"
+			"Rev": "98eedef602b3a1b76033d11b2ab9e2fa0292c4be"
 		},
 		{
 			"ImportPath": "github.com/grokify/gotilla/io/ioutilmore",
-			"Rev": "458cae789052eeb1685eb3a8d8adb1c8460e20ad"
+			"Rev": "98eedef602b3a1b76033d11b2ab9e2fa0292c4be"
 		},
 		{
 			"ImportPath": "github.com/grokify/gotilla/mime/multipartutil",
-			"Rev": "458cae789052eeb1685eb3a8d8adb1c8460e20ad"
+			"Rev": "98eedef602b3a1b76033d11b2ab9e2fa0292c4be"
 		},
 		{
 			"ImportPath": "github.com/grokify/gotilla/net/anyhttp",
-			"Rev": "458cae789052eeb1685eb3a8d8adb1c8460e20ad"
+			"Rev": "98eedef602b3a1b76033d11b2ab9e2fa0292c4be"
 		},
 		{
 			"ImportPath": "github.com/grokify/gotilla/net/httputilmore",
-			"Rev": "458cae789052eeb1685eb3a8d8adb1c8460e20ad"
+			"Rev": "98eedef602b3a1b76033d11b2ab9e2fa0292c4be"
 		},
 		{
 			"ImportPath": "github.com/grokify/gotilla/net/urlutil",
-			"Rev": "458cae789052eeb1685eb3a8d8adb1c8460e20ad"
+			"Rev": "98eedef602b3a1b76033d11b2ab9e2fa0292c4be"
 		},
 		{
 			"ImportPath": "github.com/grokify/gotilla/os/osutil",
-			"Rev": "458cae789052eeb1685eb3a8d8adb1c8460e20ad"
+			"Rev": "98eedef602b3a1b76033d11b2ab9e2fa0292c4be"
 		},
 		{
 			"ImportPath": "github.com/grokify/gotilla/strconv/strconvutil",
-			"Rev": "458cae789052eeb1685eb3a8d8adb1c8460e20ad"
+			"Rev": "98eedef602b3a1b76033d11b2ab9e2fa0292c4be"
 		},
 		{
 			"ImportPath": "github.com/grokify/gotilla/time/timeutil",
-			"Rev": "458cae789052eeb1685eb3a8d8adb1c8460e20ad"
+			"Rev": "98eedef602b3a1b76033d11b2ab9e2fa0292c4be"
 		},
 		{
 			"ImportPath": "github.com/grokify/oauth2more",
