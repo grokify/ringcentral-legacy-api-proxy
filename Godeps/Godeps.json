@@ -7,6 +7,31 @@
 	],
 	"Deps": [
 		{
+			"ImportPath": "github.com/apex/gateway",
+			"Comment": "v1.0.0-13-gcdfe71d",
+			"Rev": "cdfe71df1421609687c01dda11f13ef068784e5b"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-lambda-go/events",
+			"Comment": "v1.0.1-17-gb2a9167",
+			"Rev": "b2a9167f3412a1daa5a3051a10839631063bd3d8"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-lambda-go/lambda",
+			"Comment": "v1.0.1-17-gb2a9167",
+			"Rev": "b2a9167f3412a1daa5a3051a10839631063bd3d8"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-lambda-go/lambda/messages",
+			"Comment": "v1.0.1-17-gb2a9167",
+			"Rev": "b2a9167f3412a1daa5a3051a10839631063bd3d8"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-lambda-go/lambdacontext",
+			"Comment": "v1.0.1-17-gb2a9167",
+			"Rev": "b2a9167f3412a1daa5a3051a10839631063bd3d8"
+		},
+		{
 			"ImportPath": "github.com/buaazp/fasthttprouter",
 			"Comment": "v0.1.1-2-g29a27c7",
 			"Rev": "29a27c70315770a2344e11847de85648512717e7"
@@ -17,13 +42,13 @@
 			"Rev": "1cddc31c48c56ecd700d873edb9fd5b6f5df922a"
 		},
 		{
-			"ImportPath": "github.com/google/go-querystring/query",
-			"Rev": "53e6ce116135b80d037921a7fdd5138cf32d7a8a"
+			"ImportPath": "github.com/go-chi/chi",
+			"Comment": "v3.3.2-5-gcca4135",
+			"Rev": "cca4135d8dddff765463feaf1118047a9e506b4a"
 		},
 		{
-			"ImportPath": "github.com/gorilla/schema",
-			"Comment": "v1.0.2",
-			"Rev": "d0e4c24cff97ae983e9847e0ed5a02dc10013d41"
+			"ImportPath": "github.com/google/go-querystring/query",
+			"Rev": "53e6ce116135b80d037921a7fdd5138cf32d7a8a"
 		},
 		{
 			"ImportPath": "github.com/grokify/go-ringcentral/client",
@@ -41,43 +66,43 @@
 		},
 		{
 			"ImportPath": "github.com/grokify/gotilla/config",
-			"Rev": "a243ad65c3ea109a714067afcf92e51a9f6907d6"
+			"Rev": "458cae789052eeb1685eb3a8d8adb1c8460e20ad"
 		},
 		{
 			"ImportPath": "github.com/grokify/gotilla/crypto/hash/argon2",
-			"Rev": "a243ad65c3ea109a714067afcf92e51a9f6907d6"
+			"Rev": "458cae789052eeb1685eb3a8d8adb1c8460e20ad"
 		},
 		{
 			"ImportPath": "github.com/grokify/gotilla/io/ioutilmore",
-			"Rev": "a243ad65c3ea109a714067afcf92e51a9f6907d6"
+			"Rev": "458cae789052eeb1685eb3a8d8adb1c8460e20ad"
 		},
 		{
 			"ImportPath": "github.com/grokify/gotilla/mime/multipartutil",
-			"Rev": "a243ad65c3ea109a714067afcf92e51a9f6907d6"
+			"Rev": "458cae789052eeb1685eb3a8d8adb1c8460e20ad"
 		},
 		{
 			"ImportPath": "github.com/grokify/gotilla/net/anyhttp",
-			"Rev": "a243ad65c3ea109a714067afcf92e51a9f6907d6"
+			"Rev": "458cae789052eeb1685eb3a8d8adb1c8460e20ad"
 		},
 		{
 			"ImportPath": "github.com/grokify/gotilla/net/httputilmore",
-			"Rev": "a243ad65c3ea109a714067afcf92e51a9f6907d6"
+			"Rev": "458cae789052eeb1685eb3a8d8adb1c8460e20ad"
 		},
 		{
 			"ImportPath": "github.com/grokify/gotilla/net/urlutil",
-			"Rev": "a243ad65c3ea109a714067afcf92e51a9f6907d6"
+			"Rev": "458cae789052eeb1685eb3a8d8adb1c8460e20ad"
 		},
 		{
 			"ImportPath": "github.com/grokify/gotilla/os/osutil",
-			"Rev": "a243ad65c3ea109a714067afcf92e51a9f6907d6"
+			"Rev": "458cae789052eeb1685eb3a8d8adb1c8460e20ad"
 		},
 		{
 			"ImportPath": "github.com/grokify/gotilla/strconv/strconvutil",
-			"Rev": "a243ad65c3ea109a714067afcf92e51a9f6907d6"
+			"Rev": "458cae789052eeb1685eb3a8d8adb1c8460e20ad"
 		},
 		{
 			"ImportPath": "github.com/grokify/gotilla/time/timeutil",
-			"Rev": "a243ad65c3ea109a714067afcf92e51a9f6907d6"
+			"Rev": "458cae789052eeb1685eb3a8d8adb1c8460e20ad"
 		},
 		{
 			"ImportPath": "github.com/grokify/oauth2more",
