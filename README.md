@@ -17,7 +17,7 @@ RingCentral Legacy API Proxy
  [docs-godoc-link]: https://godoc.org/github.com/grokify/ringcentral-legacy-api-proxy
  [license-svg]: https://img.shields.io/badge/license-MIT-blue.svg
  [license-link]: https://github.com/grokify/ringcentral-legacy-api-proxy/blob/master/LICENSE
- [chat-svg]: https://img.shields.io/badge/chat%20on-Glip-orange.svg
+ [chat-svg]: https://img.shields.io/badge/%F0%9F%92%AC_Chat_on-Glip-orange.svg?style=flat
  [chat-url]: https://glipped.herokuapp.com/
  [stackoverflow-svg]: https://img.shields.io/badge/stack%20overflow-ringcentral-orange.svg
  [stackoverflow-url]: https://stackoverflow.com/questions/tagged/ringcentral
