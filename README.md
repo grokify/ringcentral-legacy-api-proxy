@@ -5,6 +5,7 @@ RingCentral Legacy API Proxy
 [![Go Report Card][goreport-svg]][goreport-link]
 [![Docs][docs-godoc-svg]][docs-godoc-link]
 [![License][license-svg]][license-link]
+[![Heroku][heroku-svg]][heroku-link]
 [![Stack Overflow][stackoverflow-svg]][stackoverflow-url]
 [![Chat][chat-svg]][chat-url]
 
@@ -20,6 +21,8 @@ RingCentral Legacy API Proxy
  [chat-url]: https://glipped.herokuapp.com/
  [stackoverflow-svg]: https://img.shields.io/badge/stack%20overflow-ringcentral-orange.svg
  [stackoverflow-url]: https://stackoverflow.com/questions/tagged/ringcentral
+ [heroku-svg]: https://img.shields.io/badge/%E2%86%91_Deploy_to-Heroku-7056bf.svg?style=flat
+ [heroku-link]: https://heroku.com/deploy
 
 This is a proxy service that allows apps using RingCentral's legacy RPC APIs to use the new [RingCentral REST APIs](https://developer.ringcentral.com) seamlessly. End-of-Life for the legacy APIs is targeted for the 10.2 release, August 9, 2018. Use of this proxy can enable your app to use the new REST APIs with the same interface as the legacy RPC APIs.
 
@@ -102,7 +105,7 @@ $ heroku open
 
 or
 
-[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
 After you click the button above, you will need to enter the environment variables above into the Heroku web console.
 
