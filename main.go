@@ -178,7 +178,6 @@ func main() {
 	if err != nil {
 		port = 3000
 	}
-	port = 3000
 
 	handler := Handler{
 		AppPort: port,
